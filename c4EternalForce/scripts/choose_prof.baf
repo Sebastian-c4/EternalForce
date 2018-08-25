@@ -1,0 +1,13 @@
+
+//// 剑式专攻选择
+IF
+	Class(Player%PN%,PALADIN)
+	Kit(Player%PN%, c4JediA)
+	!TriggerOverride(Player%PN%, GlobalTimerNotExpired("c4EF_Choose_Proficiency_Timer","Locals"))
+	TriggerOverride(Player%PN%, Global("c4EF_Weapon_Proficiency","Locals",0))
+THEN
+	RESPONSE #100
+		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_Choose_Proficiency_Timer","Locals",6)
+		// Wait(2)
+		ActionOverride(Player%PN%, StartDialogOverride("c4EFDia",Myself))
+END

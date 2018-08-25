@@ -1,0 +1,10 @@
+
+IF
+	Kit(Player%PN%,c4SithB)
+	TriggerOverride(Player%PN%,Global("c4EF_Learned_706","Locals",1))
+	!CheckStat(Player%PN%,1,AURACLEANSING)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4ef706Z",Player%PN%)
+		Continue()
+END

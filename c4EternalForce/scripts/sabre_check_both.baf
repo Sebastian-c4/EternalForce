@@ -1,0 +1,81 @@
+
+//双光剑检查
+IF
+	HasItemEquipedReal("c4efJW1C",Player%PN%)
+	!HasItemEquipedReal("c4efJW1D",Player%PN%)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Player%PN%,@1000)
+		ActionOverride(Player%PN%,PauseGame())
+		Continue()
+END
+
+IF
+	!HasItemEquipedReal("c4efJW1C",Player%PN%)
+	HasItemEquipedReal("c4efJW1D",Player%PN%)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Player%PN%,@1000)
+		ActionOverride(Player%PN%,PauseGame())
+		Continue()
+END
+
+IF
+	HasItemEquipedReal("c4efJW2C",Player%PN%)
+	!HasItemEquipedReal("c4efJW2D",Player%PN%)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Player%PN%,@1000)
+		ActionOverride(Player%PN%,PauseGame())
+		Continue()
+END
+
+IF
+	!HasItemEquipedReal("c4efJW2C",Player%PN%)
+	HasItemEquipedReal("c4efJW2D",Player%PN%)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Player%PN%,@1000)
+		ActionOverride(Player%PN%,PauseGame())
+		Continue()
+END
+
+IF
+	HasItemEquipedReal("c4efSW1C",Player%PN%)
+	!HasItemEquipedReal("c4efSW1D",Player%PN%)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Player%PN%,@1000)
+		ActionOverride(Player%PN%,PauseGame())
+		Continue()
+END
+
+IF
+	!HasItemEquipedReal("c4efSW1C",Player%PN%)
+	HasItemEquipedReal("c4efSW1D",Player%PN%)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Player%PN%,@1000)
+		ActionOverride(Player%PN%,PauseGame())
+		Continue()
+END
+
+IF
+	HasItemEquipedReal("c4efSW2C",Player%PN%)
+	!HasItemEquipedReal("c4efSW2D",Player%PN%)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Player%PN%,@1000)
+		ActionOverride(Player%PN%,PauseGame())
+		Continue()
+END
+
+IF
+	!HasItemEquipedReal("c4efSW2C",Player%PN%)
+	HasItemEquipedReal("c4efSW2D",Player%PN%)
+THEN
+	RESPONSE #100
+		DisplayStringHead(Player%PN%,@1000)
+		ActionOverride(Player%PN%,PauseGame())
+		Continue()
+END

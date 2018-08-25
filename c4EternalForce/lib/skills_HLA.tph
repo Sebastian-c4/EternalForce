@@ -1,0 +1,346 @@
+
+
+ACTION_CLEAR_ARRAY erosion_value
+
+/*通用 */
+//原力锁喉
+COPY ~%SKILLS%/c4ef501.spl~ override
+	SAY NAME1 @3501
+	SAY UNIDENTIFIED_DESC @4501
+	
+ACTION_DEFINE_ASSOCIATIVE_ARRAY suffix501 BEGIN
+	A, B => 7
+	B, C => 8
+	C, D => 9
+	D, E => 10
+	E, X => 0
+END
+
+ACTION_PHP_EACH suffix501 AS now => savebonus BEGIN
+	OUTER_SPRINT next ~%now_1%~
+	COPY ~%SKILLS%/c4ef501A.spl~ ~override/c4ef501%now%.spl~
+		LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1= RESOLVE_STR_REF (@35011) END
+		PATCH_IF ~%now%~ STR_CMP E BEGIN
+			LPF ALTER_EFFECT INT_VAR match_opcode=146 savebonus STR_VAR resource= ~c4ef501%next%~ END
+		END ELSE LPF DELETE_EFFECT INT_VAR match_opcode=146 END
+		GET_OFFSET_ARRAY header SPL_V10_HEADERS
+		PHP_EACH header AS int => index BEGIN
+			GET_OFFSET_ARRAY2 effect index SPL_V10_HEAD_EFFECTS
+			PHP_EACH effect AS int => offset BEGIN
+				READ_SHORT offset opcode
+				PATCH_IF opcode=146 BEGIN
+					WRITE_LONG offset+0x28 0 - THIS
+				END
+			END
+		END
+END
+
+//原力鸡脖
+COPY ~%SKILLS%/c4ef502.spl~ override
+	SAY NAME1 @3502
+	SAY UNIDENTIFIED_DESC @4502
+
+COPY ~%SKILLS%/c4ef502A.spl~ override
+
+ADD_PROJECTILE ~%PROJECTILE%/c4ef502b.pro~
+COPY ~%SKILLS%/c4ef502B.spl~ override
+	LPF ALTER_SPELL_HEADER INT_VAR projectile=c4ef502b END
+	LPF CREATE_HEADERS_AS_LEVEL INT_VAR level_increment=4 level_multiplier=2 END
+	PATCH_FOR_EACH match_opcode IN 12 BEGIN
+		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode  dicenumber=1 multi_dicenumber=1 END
+	END
+
+//意志维持
+COPY ~%SKILLS%/c4ef503.spl~ override
+	SAY NAME1 @3503
+	SAY UNIDENTIFIED_DESC @4503
+
+//剑型精通
+OUTER_FOR (i=4;i<7;++i) BEGIN
+	LAF CREATE_EFFECT INT_VAR opcode=187 timing=9 parameter1=7+i STR_VAR name=~c4ef50%i%~ variable=~c4EF_Weapon_Proficiency~ END
+	LAF CREATE_EMPTY_SPELL STR_VAR name=~c4ef50%i%~ END
+	COPY_EXISTING ~c4ef50%i%.spl~ override
+		WRITE_ASCII 0x3a ~c4ef50%i%b~
+		LPF ALTER_SPELL_HEADER INT_VAR target=5 STR_VAR icon=~c4ef50%i%b~ END
+		PATCH_BASH_FOR ~override~ ~c4ef[JS]W[123][A-D].itm~ BEGIN
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=112 timing=1 target=2 STR_VAR resource=~%BASH_FOR_RES%~ END
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=123 timing=1 target=2 STR_VAR resource=~%BASH_FOR_RES%~ END
+		END
+		LPF ADD_SPELL_EFFECT INT_VAR opcode=177 target=2 timing=9 parameter2=2 STR_VAR resource=~%SOURCE_RES%~ END
+		LPF ADD_SPELL_EFFECT INT_VAR opcode=215 target=2 timing=1 STR_VAR resource=SPUSEANY END
+		name=3500+i
+		desc=4500+i
+		WRITE_LONG NAME1 RESOLVE_STR_REF ((AT ~%name%~))
+		WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF ((AT ~%desc%~))
+END
+
+/* 光明 */
+//原力光明
+LAF CREATE_EFFECT INT_VAR opcode=187 timing=9 parameter1=1 STR_VAR name=c4ef601 variable=~c4EF_Jedi_Master~ END
+LAF CREATE_EMPTY_SPELL STR_VAR name=c4ef601 END
+COPY_EXISTING c4ef601.spl override
+	WRITE_ASCII 0x3a c4ef601b
+	LPF ALTER_SPELL_HEADER INT_VAR target=5 STR_VAR icon=c4ef601b END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=177 target=2 timing=9 parameter2=2 STR_VAR resource=~%SOURCE_RES%~ END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=215 target=2 timing=1 STR_VAR resource=~SPUSEANY~ END
+	SAY NAME1 @3601
+	SAY UNIDENTIFIED_DESC @4601
+	
+//原力审判
+OUTER_SET $erosion_value(602) = ~-1~
+COPY ~%SKILLS%/c4ef602.spl~ override
+	LPF CREATE_HEADERS_AS_LEVEL INT_VAR level_increment=4 level_multiplier=2 END
+	PATCH_FOR_EACH match_opcode IN 12 BEGIN
+		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode  dicenumber=2 multi_dicenumber=2 END
+	END
+	SAY NAME1 @3602
+	SAY UNIDENTIFIED_DESC @4602
+
+//原力启迪
+LAF CREATE_EFFECT INT_VAR opcode=187 timing=9 parameter1=1 STR_VAR name=c4ef603 variable=~c4EF_Jedi_Enlightened~ END
+LAF CREATE_EMPTY_SPELL STR_VAR name=c4ef603 END
+COPY_EXISTING c4ef603.spl override
+	WRITE_ASCII 0x3a c4ef603b
+	LPF ALTER_SPELL_HEADER INT_VAR target=5 STR_VAR icon=c4ef603b END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=177 target=2 timing=9 parameter2=2 STR_VAR resource=~%SOURCE_RES%~ END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=215 target=2 timing=1 STR_VAR resource=~SPUSEANY~ END
+	SAY NAME1 @3603
+	SAY UNIDENTIFIED_DESC @4603
+	
+//原力武装
+OUTER_SET $erosion_value(604) = ~-1~
+COPY ~%SKILLS%/c4ef604.spl~ override
+	SAY NAME1 @3604
+	SAY UNIDENTIFIED_DESC @4604
+	
+//原力英勇
+OUTER_SET $erosion_value(605) = ~-1~
+ADD_PROJECTILE ~%PROJECTILE%/c4ef605.pro~
+COPY ~%SKILLS%/c4ef605.spl~ override
+	LPF ALTER_SPELL_HEADER INT_VAR projectile=c4ef605 END
+	LPF CREATE_HEADERS_AS_LEVEL INT_VAR END
+	PATCH_FOR_EACH match_opcode IN 0 278 73 325 296 101 50 142 328 174 267 169 106 BEGIN
+		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode match_duration=300 duration=6 multi_duration=6 END
+	END
+	SAY NAME1 @3605
+	SAY UNIDENTIFIED_DESC @4605
+
+//原力风暴
+LAF CREATE_EMPTY_SPELL STR_VAR name=c4ef606 END
+COPY_EXISTING c4ef606.spl override
+	WRITE_ASCII 0x3a c4ef606b
+	LPF ALTER_SPELL_HEADER INT_VAR target=5 STR_VAR icon=c4ef606b END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=171 target=2 timing=9 STR_VAR resource=~%SOURCE_RES%A~ END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=215 target=2 timing=1 STR_VAR resource=~SPUSEANY~ END
+	SAY NAME1 @3606
+	SAY UNIDENTIFIED_DESC @4606
+
+OUTER_SET $erosion_value(606A) = ~-1~
+ADD_PROJECTILE ~%PROJECTILE%/c4ef606A.pro~
+COPY ~%SKILLS%/c4ef606A.spl~ override
+	LPF ALTER_SPELL_HEADER INT_VAR projectile=c4ef606A END
+	PATCH_FOR_EACH type IN 1 2 4 8 256 BEGIN
+		LPF ADD_SPELL_EFFECT INT_VAR opcode=12 target=2 timing=1 parameter2=type<<16 dicesize=6 dicenumber=4 savingthrow=BIT24 END
+	END
+	SAY NAME1 @36061
+	SAY UNIDENTIFIED_DESC @36062
+
+/* 黑暗 */
+//炼金术
+LAF CREATE_EFFECT INT_VAR opcode=187 timing=9 parameter1=1 STR_VAR name=c4ef701 variable=~c4EF_Sith_Master~ END
+LAF CREATE_EMPTY_SPELL STR_VAR name=c4ef701 END
+COPY_EXISTING c4ef701.spl override
+	WRITE_ASCII 0x3a c4ef701b
+	LPF ALTER_SPELL_HEADER INT_VAR target=5 STR_VAR icon=c4ef701b END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=177 target=2 timing=9 parameter2=2 STR_VAR resource=~%SOURCE_RES%~ END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=215 target=2 timing=1 STR_VAR resource=~SPUSEANY~ END
+	SAY NAME1 @3701
+	SAY UNIDENTIFIED_DESC @4701
+	
+//原力闪电
+OUTER_SET $erosion_value(702) = ~5~
+COPY ~%SKILLS%/c4ef702.spl~ override
+	LPF CREATE_HEADERS_AS_LEVEL INT_VAR level_increment=4 level_multiplier=2 END
+	PATCH_FOR_EACH match_opcode IN 12 BEGIN
+		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode  dicenumber=2 multi_dicenumber=2 END
+	END
+	SAY NAME1 @3702
+	SAY UNIDENTIFIED_DESC @4702
+	
+//纤原体
+OUTER_SET $erosion_value(703) = ~5~
+COPY ~%SKILLS%/c4ef703.spl~ override
+	LPF CREATE_HEADERS_AS_LEVEL END
+	PATCH_FOR_EACH match_opcode IN 18 BEGIN
+		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=6 multi_parameter1=6 END
+	END
+	GET_OFFSET_ARRAY header SPL_V10_HEADERS 
+	PHP_EACH header AS int => index BEGIN
+		READ_SHORT index+0x10 min_level
+		GET_OFFSET_ARRAY2 effect index SPL_V10_HEAD_EFFECTS
+		PHP_EACH effect AS int => offset BEGIN
+			READ_SHORT offset opcode
+			PATCH_IF opcode=98 BEGIN
+				WRITE_LONG offset+4 min_level/4
+			END
+		END
+	END
+	SAY NAME1 @3703
+	SAY UNIDENTIFIED_DESC @4703
+	
+//暗影矛
+OUTER_SET $erosion_value(704) = ~5~
+COPY ~%SKILLS%/c4ef704.spl~ override
+	SAY NAME1 @3704
+	SAY UNIDENTIFIED_DESC @4704
+	
+COPY_EXISTING c4ef704.itm override
+	SAY NAME2 @37041
+	SAY DESC @37042
+
+//原力魅影
+OUTER_SET $erosion_value(705) = ~5~
+COPY ~%SKILLS%/c4ef705.spl~ override
+	SAY NAME1 @3705
+	SAY UNIDENTIFIED_DESC @4705
+	
+COPY_EXISTING c4ef704.itm override
+	SAY NAME1 @37051
+	SAY NAME2 @37051
+	
+COMPILE ~%SCRIPTS%/c4ef705.baf~
+
+ACTION_FOR_EACH file IN sppr413 BEGIN	
+	COPY_EXISTING - ~%file%.spl~ override
+		FOR (i=2;i<51;i+=1) BEGIN
+			LPF DELETE_SPELL_HEADER INT_VAR header_type=~-1~ min_level=i END
+		END
+		GET_OFFSET_ARRAY header SPL_V10_HEADERS
+		PHP_EACH header AS int => index BEGIN
+			GET_OFFSET_ARRAY2 effect index SPL_V10_HEAD_EFFECTS 
+			PHP_EACH effect AS int => offset BEGIN
+				PATCH_FOR_EACH target IN 169 101 142 267 282 BEGIN
+					READ_SHORT offset opcode
+					PATCH_IF opcode = target BEGIN
+						READ_LONG offset+0x4 parameter1
+						READ_LONG offset+0x8 parameter2
+						READ_LONG offset+0x2c special
+						READ_ASCII offset+0x14 resource
+						INNER_ACTION BEGIN
+							COPY_EXISTING c4ef705.cre override
+								LPF DELETE_EFFECT
+									INT_VAR
+										match_opcode=opcode
+										match_parameter1=parameter1
+										match_parameter2=parameter2
+										match_special=special
+									STR_VAR
+										match_resource=resource
+									END
+								LPF CLONE_EFFECT
+									INT_VAR
+										match_opcode=66
+										opcode parameter1 parameter2 special
+									STR_VAR
+										resource insert=last
+								END
+						END
+					END
+				END
+			END
+		END
+END
+
+//原力共振
+COPY ~%SKILLS%/c4ef706.spl~ override
+	SAY NAME1 @3706
+	SAY UNIDENTIFIED_DESC @4706
+
+//原力风暴
+LAF CREATE_EMPTY_SPELL STR_VAR name=c4ef707 END
+COPY_EXISTING c4ef707.spl override
+	WRITE_ASCII 0x3a c4ef707b
+	LPF ALTER_SPELL_HEADER INT_VAR target=5 STR_VAR icon=c4ef707b END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=171 target=2 timing=9 STR_VAR resource=~%SOURCE_RES%A~ END
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=215 target=2 timing=1 STR_VAR resource=~SPUSEANY~ END
+	SAY NAME1 @3707
+	SAY UNIDENTIFIED_DESC @4707
+
+OUTER_SET $erosion_value(707A) = ~5~
+COPY ~%SKILLS%/c4ef707A.spl~ override
+	LPF ALTER_SPELL_HEADER INT_VAR projectile=c4ef606A END
+	PATCH_FOR_EACH type IN 512 1024 1 32 64 256 BEGIN
+		LPF ADD_SPELL_EFFECT INT_VAR opcode=12 target=2 timing=1 parameter2=type<<16 dicesize=6 dicenumber=6 savingthrow=BIT24 END
+	END
+	SAY NAME1 @37071
+	SAY UNIDENTIFIED_DESC @37072
+
+
+/* 全局 */
+//防叠加
+ACTION_FOR_EACH file IN
+	604 605
+	703 704
+BEGIN
+	COPY_EXISTING ~c4ef%file%.spl~ override
+		LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=321 target=1 STR_VAR resource=~%SOURCE_RES%~ END
+END
+
+//侵蚀度标记
+ACTION_PHP_EACH erosion_value AS file => value BEGIN
+	COPY_EXISTING ~c4ef%file%.spl~ override
+		LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=177 target=1 timing=1 parameter2=2 STR_VAR resource=~c4efES%value%~ END
+END
+
+//原力迅捷
+COPY_EXISTING_REGEXP GLOB ~c4ef\(501\|502\|602\|604\|605\|606A\)\.spl~ override
+	LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=146 target=1 timing=1 parameter2=1 probability1=20 STR_VAR resource=~c4efJjIA~ END
+	LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=321 target=1 timing=0 STR_VAR resource=~c4efJjIA~ END
+	
+/* 阵营变化后恢复 */
+//被动单独处理
+LAF CREATE_EFFECT INT_VAR opcode=187 timing=9 parameter1=1 STR_VAR name=c4ef706Y variable=~c4EF_Learned_706~ END
+COPY_EXISTING c4ef706.spl override
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=177 target=2 timing=9 parameter2=2 STR_VAR resource=~c4ef706Y~ END
+
+COPY_EXISTING c4ef706.spl ~override/c4ef706Z.spl~
+	WRITE_LONG 0x18 BIT14+BIT15+BIT24+BIT25
+	LPF ALTER_SPELL_HEADER INT_VAR range=10000 target=1 END
+	SPRINT name @3706
+	SPRINT rname @3801
+	SPRINT rname ~%rname%~^~%name%~
+	SAY NAME1 ~%rname%~
+
+//其他
+ACTION_FOR_EACH skill IN 602 604 605 606 702 703 704 705 707 BEGIN
+	//记录
+	LAF CREATE_EFFECT INT_VAR opcode=187 timing=9 parameter1=1 STR_VAR name=~c4ef%skill%Y~ variable=~c4EF_Learned_%skill%~ END
+	LAF CREATE_EMPTY_SPELL STR_VAR name=~c4ef%skill%Y~ END
+	COPY_EXISTING ~c4ef%skill%Y.spl~ override
+		WRITE_LONG 0x18 BIT14+BIT15+BIT24+BIT25
+		LPF ALTER_SPELL_HEADER INT_VAR range=10000 target=1 END
+		LPF ADD_SPELL_EFFECT INT_VAR opcode=177 target=2 timing=9 parameter2=2 STR_VAR resource=~%SOURCE_RES%~ END
+	
+	//添加主动技能
+	LAF CREATE_EMPTY_SPELL STR_VAR name=~c4ef%skill%Z~ END
+	COPY_EXISTING ~c4ef%skill%Z.spl~ override
+		PATCH_IF skill=606 || skill=707 BEGIN
+			SPRINT real ~%skill%A~
+		END ELSE SPRINT real ~%skill%~
+		WRITE_LONG 0x18 BIT14+BIT15+BIT24+BIT25
+		LPF ALTER_SPELL_HEADER INT_VAR range=10000 target=1 END
+		LPF ADD_SPELL_EFFECT INT_VAR opcode=171 target=2 timing=9 savingthrow=BIT24 STR_VAR resource=~c4ef%real%~ END
+		SET name=3000+skill
+		SPRINT name (AT %name%)
+		SPRINT rname @3801
+		SPRINT rname ~%rname%~^~%name%~
+		SAY NAME1 ~%rname%~
+END
+
+/* 高阶技能表控制：放护甲上 */
+COPY_EXISTING_REGEXP GLOB ~c4efJA[23].itm~ override
+	LPF CLONE_EFFECT INT_VAR match_opcode=0 opcode=313 STR_VAR resource=c4efSith END
+
+COPY_EXISTING_REGEXP GLOB ~c4efSA[12].itm~ override
+	LPF CLONE_EFFECT INT_VAR match_opcode=0 opcode=313 STR_VAR resource=c4efJedi END
+

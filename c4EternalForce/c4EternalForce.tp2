@@ -1,0 +1,68 @@
+BACKUP ~c4EternalForce/backup~
+AUTHOR ~c4demon@gmail.com~
+
+VERSION ~v4~
+AUTO_EVAL_STRINGS
+
+README ~c4EternalForce/languages/%LANGUAGE%/readme.pdf~
+
+AUTO_TRA ~c4EternalForce/languages/%s~
+
+ALWAYS
+
+	OUTER_SPRINT ~MOD_FOLDER~ ~c4EternalForce~
+	INCLUDE ~%MOD_FOLDER%/lib/_always.tph~
+	
+END
+
+LANGUAGE 	~????????~
+					~schinese~
+					~c4EternalForce/languages/schinese/prompts/prompts-%WEIDU_OS%.tra~
+					~c4EternalForce/languages/schinese/kitname.tra~
+					~c4EternalForce/languages/schinese/items.tra~
+					~c4EternalForce/languages/schinese/styles.tra~
+					~c4EternalForce/languages/schinese/skills.tra~
+
+BEGIN @-1
+DESIGNATED 1
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @-0
+
+COPY ~.../inlined/blank.baf~ ~override/c4Mods_%version%.mrk~
+
+SILENT
+ 
+/* copy */
+COPY ~%MOD_FOLDER%/2da~							override
+COPY ~%MOD_FOLDER%/bam~							override
+COPY ~%MOD_FOLDER%/cre~							override
+COPY ~%MOD_FOLDER%/eff~							override
+COPY ~%MOD_FOLDER%/items/copy~			override
+COPY ~%MOD_FOLDER%/skills/copy~ 		override
+COPY ~%MOD_FOLDER%/styles/copy~ 		override
+
+/* addkit */
+INCLUDE ~%MOD_FOLDER%/lib/fl#add_kit_ee.tpa~
+INCLUDE ~%MOD_FOLDER%/lib/addkit.tph~
+INCLUDE ~%MOD_FOLDER%/lib/addkit_real.tph~
+
+/* ???????? */
+COMPILE ~%MOD_FOLDER%/dialog/c4dialog.d~ EVAL
+
+/* ????????¨²???? */
+INCLUDE ~%MOD_FOLDER%/lib/protrait_icon.tph~
+
+/* ??????????? */
+INCLUDE ~%MOD_FOLDER%/lib/armor_and_sabre.tph~
+INCLUDE ~%MOD_FOLDER%/lib/sabre_checks.tph~
+
+/* ??? */
+INCLUDE ~%MOD_FOLDER%/lib/styles.tph~
+
+/* ??????? */
+INCLUDE ~%MOD_FOLDER%/lib/skills.tph~
+
+/* ??? */
+INCLUDE ~%MOD_FOLDER%/lib/skills_HLA.tph~
+
+/* ??? */
+INCLUDE ~%MOD_FOLDER%/lib/script.tph~

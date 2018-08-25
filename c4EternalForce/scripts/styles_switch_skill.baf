@@ -1,0 +1,137 @@
+
+//剑式切换技能
+IF
+	Class(Player%PN%,PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+	LevelLT(Player%PN%,3)
+	!TriggerOverride(Player%PN%,HaveSpellRES("c4efJj10"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj1R",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+	!LevelLT(Player%PN%,3)
+	LevelLT(Player%PN%,6)
+	!TriggerOverride(Player%PN%,HaveSpellRES("c4efJj20"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj2R",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+	!LevelLT(Player%PN%,6)
+	LevelLT(Player%PN%,9)
+	!TriggerOverride(Player%PN%,HaveSpellRES("c4efJj30"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj3R",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+	!LevelLT(Player%PN%,9)
+	LevelLT(Player%PN%,12)
+	!TriggerOverride(Player%PN%,HaveSpellRES("c4efJj40"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj4R",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+	!LevelLT(Player%PN%,12)
+	LevelLT(Player%PN%,15)
+	!TriggerOverride(Player%PN%,HaveSpellRES("c4efJj50"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj5R",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+	!LevelLT(Player%PN%,15)
+	!TriggerOverride(Player%PN%,HaveSpellRES("c4efJj60"))
+	// !TriggerOverride(Player%PN%,HaveSpellRES("c4efJj7R"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj6R",Player%PN%)
+		// ReallyForceSpellRES("c4efJj7R",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4JediC)
+		Kit(Player%PN%, c4JediD)
+	!TriggerOverride(Player%PN%,HaveSpellRES("c4efJj70"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj7R",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4SithA)
+		Kit(Player%PN%, c4SithB)
+	OR(7)
+		TriggerOverride(Player%PN%,HaveKnownSpellRES("c4efJj10"))
+		TriggerOverride(Player%PN%,HaveKnownSpellRES("c4efJj20"))
+		TriggerOverride(Player%PN%,HaveKnownSpellRES("c4efJj30"))
+		TriggerOverride(Player%PN%,HaveKnownSpellRES("c4efJj40"))
+		TriggerOverride(Player%PN%,HaveKnownSpellRES("c4efJj50"))
+		TriggerOverride(Player%PN%,HaveKnownSpellRES("c4efJj60"))
+		TriggerOverride(Player%PN%,HaveKnownSpellRES("c4efJj70"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj0R",Player%PN%)
+		Continue()
+END
+
+//西斯剑式帽子
+IF
+	Class(Player%PN%,PALADIN)
+	Kit(Player%PN%, c4SithA)
+	!HasItemEquiped("c4efSj1",Player%PN%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efSj1-",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	Kit(Player%PN%, c4SithB)
+	!HasItemEquiped("c4efSj2",Player%PN%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efSj2-",Player%PN%)
+		Continue()
+END

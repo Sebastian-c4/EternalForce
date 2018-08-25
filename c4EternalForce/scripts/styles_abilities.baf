@@ -1,0 +1,76 @@
+
+//form4
+IF
+	Class(Player%PN%,PALADIN)
+	OR(4)
+		Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+		Kit(Player%PN%, c4JediC)
+		Kit(Player%PN%, c4JediD)
+	TriggerOverride(Player%PN%,Global("c4EF_Jedi_Style_Form4","Locals",0))
+	TriggerOverride(Player%PN%,See(NearestEnemyOf()))
+	HasItemEquiped("c4efJj4",Player%PN%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj4A",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	// OR(4)
+		// Kit(Player%PN%, c4JediA)
+		// Kit(Player%PN%, c4JediB)
+		// Kit(Player%PN%, c4JediC)
+		// Kit(Player%PN%, c4JediD)
+	TriggerOverride(Player%PN%,GlobalGT("c4EF_Jedi_Style_Form4","Locals",0))
+	!GlobalTimerNotExpired("c4EF_EnemyEncountedTimer","Global")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj4Z",Player%PN%)
+		Continue()
+END
+
+//form5
+IF
+	Class(Player%PN%,PALADIN)
+	OR(4)
+		Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+		Kit(Player%PN%, c4JediC)
+		Kit(Player%PN%, c4JediD)
+	TriggerOverride(Player%PN%,Global("c4EF_Jedi_Style_Form5","Locals",0))
+	TriggerOverride(Player%PN%,See(NearestEnemyOf()))
+	HasItemEquiped("c4efJj5",Player%PN%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj5A",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	// OR(4)
+		// Kit(Player%PN%, c4JediA)
+		// Kit(Player%PN%, c4JediB)
+		// Kit(Player%PN%, c4JediC)
+		// Kit(Player%PN%, c4JediD)
+	TriggerOverride(Player%PN%,GlobalGT("c4EF_Jedi_Style_Form5","Locals",0))
+	!GlobalTimerNotExpired("c4EF_EnemyEncountedTimer","Global")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj5Z",Player%PN%)
+		Continue()
+END
+
+//sith2
+IF
+	Class(Player%PN%,PALADIN)
+	// Kit(Player%PN%, c4SithB)
+	TriggerOverride(Player%PN%,GlobalGT("c4EF_Sith_Style_2","Locals",0))
+	!GlobalTimerNotExpired("c4EF_EnemyEncountedTimer","Global")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efSj2Z",Player%PN%)
+		Continue()
+END

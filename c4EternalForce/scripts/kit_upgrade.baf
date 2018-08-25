@@ -1,0 +1,58 @@
+
+
+//// 学徒to武士
+IF
+	Class(Player%PN%, PALADIN)
+	Kit(Player%PN%, c4JediA)
+	LevelGT(Player%PN%, 8)
+	TriggerOverride(Player%PN%, GlobalGT("c4EF_Weapon_Proficiency", "Locals", 0))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		Wait(1)
+		ActionOverride(Player%PN%, AddKit(c4JediB))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END
+
+//// 武士to大师
+IF
+	Class(Player%PN%, PALADIN)
+	Kit(Player%PN%, c4JediB)
+	TriggerOverride(Player%PN%, GlobalGT("c4EF_Jedi_Master", "Locals", 0))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		Wait(1)
+		ActionOverride(Player%PN%, AddKit(c4JediC))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END
+
+//// 大师+启迪
+IF
+	Class(Player%PN%, PALADIN)
+	Kit(Player%PN%, c4JediC)
+	TriggerOverride(Player%PN%, GlobalGT("c4EF_Jedi_Enlightened", "Locals", 0))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		Wait(1)
+		ActionOverride(Player%PN%, AddKit(c4JediD))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END
+
+//// 西斯武士to西斯大君
+IF
+	Class(Player%PN%, PALADIN)
+	Kit(Player%PN%, c4SithA)
+	TriggerOverride(Player%PN%, GlobalGT("c4EF_Sith_Master", "Locals", 0))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		Wait(1)
+		ActionOverride(Player%PN%, AddKit(c4SithA))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END

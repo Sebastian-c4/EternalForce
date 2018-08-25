@@ -1,0 +1,104 @@
+
+/* 光剑控制：
+	表格技能：移除所有光剑，重置变量c4EF_KIT_%kit%=0, 设置当前宗派=1
+	脚本:
+	0. 数目超过1时自动移除
+	1. 符合2宗派, 无武器, 宗派变量=1, 符合风格 => 宗派变量=2, 新获得提示, 移除全部光剑, 给光剑
+	2. 符合2宗派, 无武器, 宗派变量=2, 符合风格 => 宗派变量=2, 不能丢提示, 移除全部光剑, 给光剑
+	3. 符合2宗派, 装备武器, 不符合风格 => 错误风格提示, 移除当前装备光剑
+	4. 不符合宗派, 装备武器 => 错误职业提示, 移除当前装备光剑
+*/
+// COPY ~%MOD_FOLDER%/2da~							override
+
+ACTION_PHP_EACH kit_armor AS kit0 => spell BEGIN
+	
+	//宗派标识归0效果
+	LAF GET_UNIQUE_FILE_NAME STR_VAR extension=eff base=~c4EF_KIT_Identifier_%kit0%_0~ RET ~%kit0%0~=filename END
+	LAF CREATE_EFFECT INT_VAR opcode=187 timing=1 STR_VAR name= EVAL ~%%kit0%0%~ variable=~c4EF_KIT_%kit0%~ END
+	
+	//宗派标识=1
+	LAF GET_UNIQUE_FILE_NAME STR_VAR extension=eff base=~c4EF_KIT_Identifier_%kit0%_1~ RET ~%kit0%1~=filename END
+	LAF CREATE_EFFECT INT_VAR opcode=187 timing=1 parameter1=1 STR_VAR name= EVAL ~%%kit0%1%~ variable=~c4EF_KIT_%kit0%~ END
+	
+	//宗派标识=2
+	LAF GET_UNIQUE_FILE_NAME STR_VAR extension=eff base=~c4EF_KIT_Identifier_%kit0%_2~ RET ~%kit0%2~=filename END
+	LAF CREATE_EFFECT INT_VAR opcode=187 timing=1 parameter1=2 STR_VAR name= EVAL ~%%kit0%2%~ variable=~c4EF_KIT_%kit0%~ END
+	
+END
+
+
+ACTION_PHP_EACH kit_armor AS kit0 => spell0 BEGIN	
+	
+	//表格中设定宗派标识法术
+	LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_KIT_Identifier_%kit0%_0~ RET ~%kit0%0~=filename END
+	COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%%kit0%0%.spl~
+		WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
+		PATCH_BASH_FOR ~override~ ~c4ef[JS]W[123][A-D].itm~ BEGIN
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=112 timing=1 target=2 STR_VAR resource=~%BASH_FOR_RES%~ END
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=123 timing=1 target=2 STR_VAR resource=~%BASH_FOR_RES%~ END
+		END
+		PHP_EACH kit_armor AS kit => _ BEGIN
+			PATCH_IF ~%kit%~ STR_EQ ~%kit0%~ BEGIN
+				LPF ADD_SPELL_EFFECT INT_VAR opcode=177 timing=1 target=2 parameter2=2 STR_VAR resource= EVAL ~%%kit%1%~ END
+			END ELSE BEGIN
+				LPF ADD_SPELL_EFFECT INT_VAR opcode=177 timing=1 target=2 parameter2=2 STR_VAR resource= EVAL ~%%kit%0%~ END
+			END
+		END
+
+	COPY_EXISTING ~c4%kit0%.2da~ override
+		TO_UPPER spell
+		COUNT_2DA_COLS cols
+		SET_2DA_ENTRY 2 1 cols ~AP_%%kit0%0%~
+		PRETTY_PRINT_2DA
+		
+	//光剑控制
+	ACTION_PHP_EACH sabre_check AS value => prof BEGIN
+		OUTER_SPRINT weapon ~%value_0%~
+		OUTER_SPRINT kit1 ~%value_1%~
+		OUTER_SPRINT kit2 ~%value_2%~
+		ACTION_IF ~%kit0%~ STR_EQ ~%kit1%~ BEGIN
+			OUTER_SPRINT kit ~%kit1%~
+		END ELSE OUTER_SPRINT kit ~%kit2%~
+		
+		ACTION_IF ~%kit%~ STRING_CONTAINS_REGEXP ~Jedi~ =0 BEGIN
+			OUTER_SET tra_base = 1010 //绝地
+		END ELSE OUTER_SET tra_base = 1020	
+		
+		//初次添加
+		LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_GIVE_%weapon%_NEW~ RET spell=filename END
+		COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%spell%.spl~
+			WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=177 timing=1 target=2 parameter2=2 STR_VAR resource= EVAL ~%%kit%2%~ END
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=122 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
+			SET string=tra_base+1
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=139 timing=1 target=2 parameter1= RESOLVE_STR_REF ((AT string)) END
+			
+		//不可丢弃
+		LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_GIVE_%weapon%_NODROP~ RET spell=filename END
+		COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%spell%.spl~
+			WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=122 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
+			SET string=tra_base+2
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=139 timing=1 target=2 parameter1= RESOLVE_STR_REF ((AT string)) END
+			
+		//错误专攻
+		LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_TAKE_%weapon%_WRONG_PROF~ RET spell=filename END
+		COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%spell%.spl~
+			WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=112 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=123 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
+			SET string=tra_base+3
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=139 timing=1 target=2 parameter1= RESOLVE_STR_REF ((AT string)) END
+			
+		//错误职业
+		LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_TAKE_%weapon%_WRONG_KIT~ RET spell=filename END
+		COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%spell%.spl~
+			WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=112 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=123 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
+			SET string=tra_base+4
+			LPF ADD_SPELL_EFFECT INT_VAR opcode=139 timing=1 target=2 parameter1= RESOLVE_STR_REF ((AT string)) END
+			
+	END
+	
+END

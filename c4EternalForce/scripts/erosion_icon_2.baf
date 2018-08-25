@@ -1,0 +1,16 @@
+
+//状态1-29
+IF
+	Class(Player%PN%,PALADIN)
+	OR(4)
+		Kit(Player%PN%,c4JediA)
+		Kit(Player%PN%,c4JediB)
+		Kit(Player%PN%,c4JediC)
+		Kit(Player%PN%,c4JediD)
+	TriggerOverride(Player%PN%,Global("c4EF_Erosion_Stat","Locals",%sd%))
+	!TriggerOverride(Player%PN%,Global("c4EF_Erosion_Icon","Locals",%sd%))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efEI%sd%",Player%PN%)
+		Continue()
+END

@@ -1,0 +1,66 @@
+
+
+IF
+	NumItemsGT("%weapon%",Player%PN%,1)
+THEN
+	RESPONSE #100
+		ActionOverride(Player%PN%,DestroyItem("%weapon%"))
+		Continue()
+END
+
+IF
+	!HasItem("%weapon%",Player%PN%)
+	OR(2)
+		Kit(Player%PN%, c4%kit1%)
+		Kit(Player%PN%, c4%kit2%)
+	OR(2)
+		TriggerOverride(Player%PN%,Global("c4EF_KIT_%kit1%","Locals",1))
+		TriggerOverride(Player%PN%,Global("c4EF_KIT_%kit2%","Locals",1))
+	TriggerOverride(Player%PN%,Global("c4EF_Weapon_Proficiency","Locals",%prof%))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("%spell1%",Player%PN%)
+		Continue()
+END
+
+IF
+	!HasItem("%weapon%",Player%PN%)
+	OR(2)
+		Kit(Player%PN%, c4%kit1%)
+		Kit(Player%PN%, c4%kit2%)
+	OR(2)
+		TriggerOverride(Player%PN%,Global("c4EF_KIT_%kit1%","Locals",2))
+		TriggerOverride(Player%PN%,Global("c4EF_KIT_%kit2%","Locals",2))
+	TriggerOverride(Player%PN%,Global("c4EF_Weapon_Proficiency","Locals",%prof%))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("%spell2%",Player%PN%)
+		Continue()
+END
+
+IF
+	OR(2)
+		Kit(Player%PN%, c4%kit1%)
+		Kit(Player%PN%, c4%kit2%)
+	HasItem("%weapon%",Player%PN%)
+	!TriggerOverride(Player%PN%,Global("c4EF_Weapon_Proficiency","Locals",%prof%))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("%spell3%",Player%PN%)
+		Continue()
+END
+
+IF
+	!Kit(Player%PN%, c4%kit1%)
+	!Kit(Player%PN%, c4%kit2%)
+	HasItem("%weapon%",Player%PN%)
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("%spell4%",Player%PN%)
+		Continue()
+END
+	 

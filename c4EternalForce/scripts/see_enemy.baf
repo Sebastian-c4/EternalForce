@@ -1,0 +1,8 @@
+
+IF
+	TriggerOverride(Player%PN%,See(NearestEnemyOf()))
+THEN
+	RESPONSE #100
+		SetGlobalTimer("c4EF_EnemyEncountedTimer","Global",ONE_ROUND)
+		Continue()
+END

@@ -1,0 +1,16 @@
+
+
+IF
+  Die()
+THEN
+  RESPONSE #100
+    ReallyForceSpellDead(Myself,RED_HOLY_MIGHT)
+    DestroySelf()
+END
+
+IF
+  See(NearestEnemyOf())
+THEN
+  RESPONSE #100
+    AttackReevaluate(LastSeenBy(),30)
+END

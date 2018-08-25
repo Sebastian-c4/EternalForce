@@ -1,0 +1,33 @@
+
+//状态<0
+IF
+	Class(Player%PN%,PALADIN)
+	OR(4)
+		Kit(Player%PN%,c4JediA)
+		Kit(Player%PN%,c4JediB)
+		Kit(Player%PN%,c4JediC)
+		Kit(Player%PN%,c4JediD)
+	TriggerOverride(Player%PN%,GlobalLT("c4EF_Erosion_Stat","Locals",0))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efES0",Player%PN%)
+		ReallyForceSpellRES("c4efEI0",Player%PN%)
+		Continue()
+END
+
+//状态=0, 图标!=0
+IF
+	Class(Player%PN%,PALADIN)
+	OR(4)
+		Kit(Player%PN%,c4JediA)
+		Kit(Player%PN%,c4JediB)
+		Kit(Player%PN%,c4JediC)
+		Kit(Player%PN%,c4JediD)
+	TriggerOverride(Player%PN%,GlobalLT("c4EF_Erosion_Stat","Locals",0))
+	!TriggerOverride(Player%PN%,Global("c4EF_Erosion_Icon","Locals",0))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efES0",Player%PN%)
+		ReallyForceSpellRES("c4efEI0",Player%PN%)
+		Continue()
+END

@@ -1,0 +1,110 @@
+
+INCLUDE ~%MOD_FOLDER%/lib/_functions.tpa~
+INCLUDE ~%MOD_FOLDER%/lib/_macros.tph~
+
+OUTER_SPRINT ~OUTPUT~ ~%MOD_FOLDER%/backup/output~
+OUTER_SPRINT ~SCRIPTS~ ~%MOD_FOLDER%/scripts~
+OUTER_SPRINT ~SKILLS~ ~%MOD_FOLDER%/skills~
+OUTER_SPRINT ~PROJECTILE~ ~%MOD_FOLDER%/projectile~
+
+OUTER_SPRINT version ~EternalForce_049~
+// ADD_SECTYPE c4ef_2Handed_Bash @1002
+
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY kit_armor BEGIN
+	JediA => c4efJA1
+	JediB => c4efJA2
+	JediC => c4efJA3
+	JediD => c4efJA3
+	SithA => c4efSA1
+	SithB => c4efSA2
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY sabre_check BEGIN
+	
+	//专精但堕落/救赎后成武士时使用(伪)第一级
+	c4efJW4A, JediB, JediB => 11
+	c4efJW4B, JediB, JediB => 12
+	c4efJW4C, JediB, JediB => 13
+	c4efJW4D, JediB, JediB => 13
+	
+	c4efSW4A, SithA, SithA => 11
+	c4efSW4B, SithA, SithA => 12
+	c4efSW4C, SithA, SithA => 13
+	c4efSW4D, SithA, SithA => 13
+	
+	c4efJW1A, JediB, JediB => 1
+	c4efJW1B, JediB, JediB => 2
+	c4efJW1C, JediB, JediB => 3
+	c4efJW1D, JediB, JediB => 3
+	
+	c4efJW2A, JediC, JediD => 1
+	c4efJW2B, JediC, JediD => 2
+	c4efJW2C, JediC, JediD => 3
+	c4efJW2D, JediC, JediD => 3
+	
+	c4efJW3A, JediC, JediD => 11
+	c4efJW3B, JediC, JediD => 12
+	c4efJW3C, JediC, JediD => 13
+	c4efJW3D, JediC, JediD => 13
+	
+	c4efSW1A, SithA, SithA => 1
+	c4efSW1B, SithA, SithA => 2
+	c4efSW1C, SithA, SithA => 3
+	c4efSW1D, SithA, SithA => 3
+	
+	c4efSW2A, SithB, SithB => 1
+	c4efSW2B, SithB, SithB => 2
+	c4efSW2C, SithB, SithB => 3
+	c4efSW2D, SithB, SithB => 3
+	
+	c4efSW3A, SithB, SithB => 11
+	c4efSW3B, SithB, SithB => 12
+	c4efSW3C, SithB, SithB => 13
+	c4efSW3D, SithB, SithB => 13
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY skills_align BEGIN
+	//通用=0, 光明=1, 启迪强化前=2, 启迪后=3, 黑暗=11, 武士=12, 大君=13, 天赋和高阶=99
+	// 001		=> 99
+	// 002		=> 99
+	// 003		=> 99
+	// 004		=> 99
+	// 005		=> 99
+	101		=> 2
+	102		=> 3
+	103		=> 2
+	104		=> 3
+	105		=> 1
+	106		=> 11
+	107		=> 13
+	201		=> 2
+	202		=> 3
+	203		=> 0
+	204		=> 1
+	205		=> 3
+	206		=> 12
+	207		=> 13
+	208		=> 13
+	301		=> 0
+	302		=> 0
+	303		=> 1
+	304		=> 11
+	305		=> 13
+	401		=> 0
+	402		=> 2
+	403		=> 3
+	404		=> 1
+	405		=> 3
+	406		=> 11
+	407		=> 13
+	602		=> 99
+	604		=> 99
+	605		=> 99
+	606A	=> 99
+	702		=> 99
+	703		=> 99
+	704		=> 99
+	705		=> 99
+	707A	=> 99
+END

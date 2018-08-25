@@ -1,0 +1,197 @@
+
+/* 堕落 */
+//侵蚀度>=30，堕落成武士
+IF
+	Class(Player%PN%, PALADIN)
+	OR(3)
+		// Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+		Kit(Player%PN%, c4JediC)
+		Kit(Player%PN%, c4JediD)
+	!TriggerOverride(Player%PN%, GlobalLT("c4EF_Erosion_Stat", "Locals", 30))
+	TriggerOverride(Player%PN%, Global("c4EF_Sith_Master", "Locals", 0))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efES0", Player%PN%)
+		ReallyForceSpellRES("c4efEI0", Player%PN%)
+		Wait(1)
+		ActionOverride(Player%PN%, AddKit(c4SithA))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END
+
+//侵蚀度>=30，堕落成大君
+IF
+	Class(Player%PN%, PALADIN)
+	OR(3)
+		// Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+		Kit(Player%PN%, c4JediC)
+		Kit(Player%PN%, c4JediD)
+	!TriggerOverride(Player%PN%, GlobalLT("c4EF_Erosion_Stat", "Locals", 30))
+	TriggerOverride(Player%PN%, GlobalGT("c4EF_Sith_Master", "Locals", 0))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efES0", Player%PN%)
+		ReallyForceSpellRES("c4efEI0", Player%PN%)
+		Wait(1)
+		ActionOverride(Player%PN%, AddKit(c4SithB))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END
+
+//绝地学习炼金术，救赎变量未启动时直接成为大君
+IF
+	Class(Player%PN%, PALADIN)
+	OR(3)
+		// Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+		Kit(Player%PN%, c4JediC)
+		Kit(Player%PN%, c4JediD)
+	TriggerOverride(Player%PN%, Global("c4EF_RedemptionTimer_Activated", "Locals", 0))
+	TriggerOverride(Player%PN%, GlobalGT("c4EF_Sith_Master", "Locals", 0))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efES0", Player%PN%)
+		ReallyForceSpellRES("c4efEI0", Player%PN%)
+		Wait(1)
+		ActionOverride(Player%PN%, AddKit(c4SithB))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END
+
+/* 黑暗维持 */
+IF
+	Class(Player%PN%, PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4SithA)
+		Kit(Player%PN%, c4SithB)
+	ReputationGT(Player1, 17)
+	TriggerOverride(Player%PN%, Global("c4EF_RedemptionTimer_Activated", "Locals", 0))
+THEN
+	RESPONSE #100
+		ActionOverride(Player%PN%, SetGlobal("c4EF_RedemptionTimer_Activated", "Locals", 1))
+		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_RedemptionTimer", "Locals", 36000))
+		// Continue()
+END
+
+IF
+	Class(Player%PN%, PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4SithA)
+		Kit(Player%PN%, c4SithB)
+	ReputationGT(Player1, 17)
+	TriggerOverride(Player%PN%, Global("c4EF_RedemptionTimer_Activated", "Locals", 1))
+	OR(2)
+		!TriggerOverride(Player%PN%, Global("c4EF_Erosion_Stat", "Locals", 0))
+		!TriggerOverride(Player%PN%, Global("c4EF_Erosion_Icon", "Locals", 0))
+THEN
+	RESPONSE #100
+		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_RedemptionTimer", "Locals", 36000))
+		ReallyForceSpellRES("c4efES0", Player%PN%)
+		ReallyForceSpellRES("c4efEI0", Player%PN%)
+		// Continue()
+END
+
+IF
+	Class(Player%PN%, PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4SithA)
+		Kit(Player%PN%, c4SithB)
+	ReputationLT(Player1, 18)
+	TriggerOverride(Player%PN%, Global("c4EF_RedemptionTimer_Activated", "Locals", 1))
+THEN
+	RESPONSE #100
+		ActionOverride(Player%PN%, SetGlobal("c4EF_RedemptionTimer_Activated", "Locals", 0))
+		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_RedemptionTimer", "Locals", 3600000))
+		ReallyForceSpellRES("c4efES0", Player%PN%)
+		ReallyForceSpellRES("c4efEI0", Player%PN%)
+		// Continue()
+END
+
+IF
+	Class(Player%PN%, PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4SithA)
+		Kit(Player%PN%, c4SithB)
+	ReputationLT(Player1, 18)
+	TriggerOverride(Player%PN%, Global("c4EF_RedemptionTimer_Activated", "Locals", 0))
+	OR(2)
+		!TriggerOverride(Player%PN%, Global("c4EF_Erosion_Stat", "Locals", 0))
+		!TriggerOverride(Player%PN%, Global("c4EF_Erosion_Icon", "Locals", 0))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efES0", Player%PN%)
+		ReallyForceSpellRES("c4efEI0", Player%PN%)
+		// Continue()
+END
+
+/* 堕落/救赎 */
+//武士
+IF
+	Class(Player%PN%, PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4SithA)
+		Kit(Player%PN%, c4SithB)
+	ReputationGT(Player1, 17)
+	TriggerOverride(Player%PN%, Global("c4EF_RedemptionTimer_Activated", "Locals", 1))
+	TriggerOverride(Player%PN%, GlobalTimerExpired("c4EF_RedemptionTimer", "Locals"))
+	TriggerOverride(Player%PN%, Global("c4EF_Jedi_Master", "Locals", 0))
+	TriggerOverride(Player%PN%, Global("c4EF_Jedi_Enlightened", "Locals", 0))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		Wait(1)
+		ActionOverride(Player%PN%, SetGlobal("c4EF_RedemptionTimer_Activated", "Locals", 0))
+		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_RedemptionTimer", "Locals", 3600000))
+		ActionOverride(Player%PN%, AddKit(c4JediB))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END
+
+//大师
+IF
+	Class(Player%PN%, PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4SithA)
+		Kit(Player%PN%, c4SithB)
+	ReputationGT(Player1, 17)
+	TriggerOverride(Player%PN%, Global("c4EF_RedemptionTimer_Activated", "Locals", 1))
+	TriggerOverride(Player%PN%, GlobalTimerExpired("c4EF_RedemptionTimer", "Locals"))
+	TriggerOverride(Player%PN%, Global("c4EF_Jedi_Master", "Locals", 1))
+	TriggerOverride(Player%PN%, Global("c4EF_Jedi_Enlightened", "Locals", 0))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		Wait(1)
+		ActionOverride(Player%PN%, SetGlobal("c4EF_RedemptionTimer_Activated", "Locals", 0))
+		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_RedemptionTimer", "Locals", 3600000))
+		ActionOverride(Player%PN%, AddKit(c4JediC))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END
+
+//大师
+IF
+	Class(Player%PN%, PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4SithA)
+		Kit(Player%PN%, c4SithB)
+	ReputationGT(Player1, 17)
+	TriggerOverride(Player%PN%, Global("c4EF_RedemptionTimer_Activated", "Locals", 1))
+	TriggerOverride(Player%PN%, GlobalTimerExpired("c4EF_RedemptionTimer", "Locals"))
+	TriggerOverride(Player%PN%, Global("c4EF_Jedi_Master", "Locals", 1))
+	TriggerOverride(Player%PN%, Global("c4EF_Jedi_Enlightened", "Locals", 1))
+	!GlobalTimerNotExpired("c4EF_KitChanged_Delay","Locals")
+THEN
+	RESPONSE #100
+		Wait(1)
+		ActionOverride(Player%PN%, SetGlobal("c4EF_RedemptionTimer_Activated", "Locals", 0))
+		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_RedemptionTimer", "Locals", 3600000))
+		ActionOverride(Player%PN%, AddKit(c4JediD))
+		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
+		// Continue()
+END

@@ -1,0 +1,22 @@
+
+IF
+	Class(Player%PN%,PALADIN)
+	%match_kit%
+	!TriggerOverride(Player%PN%,Global("c4EF_Learned_%skill%","Locals",1))
+	TriggerOverride(Player%PN%,HaveKnownSpellRES("c4ef%real%"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4ef%skill%Y",Player%PN%)
+		Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	%match_kit%
+	TriggerOverride(Player%PN%,Global("c4EF_Learned_%skill%","Locals",1))
+	!TriggerOverride(Player%PN%,HaveKnownSpellRES("c4ef%real%"))
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4ef%skill%Z",Player%PN%)
+		Continue()
+END

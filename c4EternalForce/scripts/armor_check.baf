@@ -1,0 +1,53 @@
+
+//护甲防丢失
+IF
+	Class(Player%PN%,PALADIN)
+	Kit(Player%PN%, c4JediA)
+	!HasItemEquiped("c4efJA1",Player%PN%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJA1R",Player%PN%)
+		// Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	Kit(Player%PN%, c4JediB)
+	!HasItemEquiped("c4efJA2",Player%PN%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJA2R",Player%PN%)
+		// Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	OR(2)
+		Kit(Player%PN%, c4JediC)
+		Kit(Player%PN%, c4JediD)
+	!HasItemEquiped("c4efJA3",Player%PN%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJA3R",Player%PN%)
+		// Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	Kit(Player%PN%, c4SithA)
+	!HasItemEquiped("c4efSA1",Player%PN%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efSA1R",Player%PN%)
+		// Continue()
+END
+
+IF
+	Class(Player%PN%,PALADIN)
+	Kit(Player%PN%, c4SithB)
+	!HasItemEquiped("c4efSA2",Player%PN%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efSA2R",Player%PN%)
+		// Continue()
+END
