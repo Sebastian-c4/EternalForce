@@ -15,7 +15,7 @@ ALWAYS
 	
 END
 
-LANGUAGE 	~????????~
+LANGUAGE 	~简体中文~
 					~schinese~
 					~c4EternalForce/languages/schinese/prompts/prompts-%WEIDU_OS%.tra~
 					~c4EternalForce/languages/schinese/kitname.tra~
@@ -45,24 +45,24 @@ INCLUDE ~%MOD_FOLDER%/lib/fl#add_kit_ee.tpa~
 INCLUDE ~%MOD_FOLDER%/lib/addkit.tph~
 INCLUDE ~%MOD_FOLDER%/lib/addkit_real.tph~
 
-/* ???????? */
+/* 专攻选择对话 */
 COMPILE ~%MOD_FOLDER%/dialog/c4dialog.d~ EVAL
 
-/* ????????ú???? */
+/* 侵蚀度设置和显示 */
 INCLUDE ~%MOD_FOLDER%/lib/protrait_icon.tph~
 
-/* ??????????? */
+/* 装备和剑术专攻 */
 INCLUDE ~%MOD_FOLDER%/lib/armor_and_sabre.tph~
 INCLUDE ~%MOD_FOLDER%/lib/sabre_checks.tph~
 
-/* ??? */
+/* 剑式 */
 INCLUDE ~%MOD_FOLDER%/lib/styles.tph~
 
-/* ??????? */
+/* 原力技能 */
 INCLUDE ~%MOD_FOLDER%/lib/skills.tph~
 
-/* ??? */
+/* 高阶 */
 INCLUDE ~%MOD_FOLDER%/lib/skills_HLA.tph~
 
-/* ??? */
+/* 脚本 */
 INCLUDE ~%MOD_FOLDER%/lib/script.tph~
