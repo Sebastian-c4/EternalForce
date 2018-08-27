@@ -9,7 +9,6 @@ OUTER_SPRINT ~PROJECTILE~ ~%MOD_FOLDER%/projectile~
 
 OUTER_SPRINT version ~EternalForce_410~
 OUTER_SET c4EternalForceVer=410
-// ADD_SECTYPE c4ef_2Handed_Bash @1002
 
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY kit_armor BEGIN
