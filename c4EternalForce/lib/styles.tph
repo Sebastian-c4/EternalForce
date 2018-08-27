@@ -247,7 +247,8 @@ LAF CREATE_EFFECT INT_VAR opcode=187 timing=1 parameter1=0 savingthrow=BIT24 STR
 
 OUTER_FOR (i=1;i<7;++i) BEGIN
 	COPY_EXISTING ~c4efJj%i%-.spl~ ~override/c4efJj7%i%.spl~
-		LPF ALTER_SPELL_HEADER INT_VAR target=1 projectile=263 END
+		WRITE_LONG 8 ~-1~
+		LPF CLONE_EFFECT INT_VAR match_opcode=143 opcode=215 parameter1=0 parameter2=1 timing=0 duration=1 STR_VAR resource=SPPOWWRD END
 		LPF CLONE_EFFECT INT_VAR match_opcode=143 opcode=177 parameter1=0 parameter2=2 STR_VAR resource=c4efJj7Z END
 		SET string=2173+i
 		LPF CLONE_EFFECT INT_VAR match_opcode=143 opcode=139 parameter1= RESOLVE_STR_REF ((AT %string%)) END
