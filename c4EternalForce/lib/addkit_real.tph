@@ -26,7 +26,6 @@ COPY_EXISTING c4ef2JA0.spl override c4ef2SA0.spl override
 		LPF CLONE_EFFECT INT_VAR match_opcode=144 opcode=321 timing=0 parameter2=0 STR_VAR resource=~c4ef2%kit%0~ END
 	END
 	LPF CLONE_EFFECT INT_VAR match_opcode=144 opcode=321 timing=0 parameter2=0 STR_VAR resource=~c4ef2SA1~ END
-	COUNT_2DA_COLS cols
 	
 //版本标记
 LAF CREATE_EFFECT INT_VAR opcode=187 timing=1 parameter1=c4EternalForceVer STR_VAR name=c4efVer variable=c4EternalForceVer END

@@ -410,6 +410,6 @@ ACTION_PHP_EACH erosion_value AS file => value BEGIN
 END
 
 //原力迅捷
-COPY_EXISTING_REGEXP GLOB ~c4ef[1-4][0-9][0-9]\.spl~ override
+COPY_EXISTING_REGEXP GLOB ~c4ef[1-4][0-9][0-9]\.spl~ override ~c4ef00[1-4]\.spl~ override
 	LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=146 target=1 timing=1 parameter2=1 probability1=20 STR_VAR resource=~c4efJjIA~ END
 	LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=321 target=1 timing=0 STR_VAR resource=~c4efJjIA~ END
