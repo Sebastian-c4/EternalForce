@@ -33,6 +33,7 @@ COPY ~%SKILLS%/c4ef001.spl~ override
 	
 //强效原力感应
 COPY ~%SKILLS%/c4ef001.spl~ ~override/c4ef002.spl~
+	LPF ALTER_SPELL_HEADER STR_VAR icon=~c4ef002b~ END
 	LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=30 level_multiplier=5 level_increment=5 END
 	PATCH_FOR_EACH match_opcode IN 0 278 325 BEGIN
 		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=2 multi_parameter1=1 END
@@ -53,6 +54,7 @@ COPY ~%SKILLS%/c4ef003.spl~ override
 //原力救援
 OUTER_SET $erosion_value(004) = ~-1~
 COPY ~%SKILLS%/c4ef003.spl~ ~override/c4ef004.spl~
+	LPF ALTER_SPELL_HEADER STR_VAR icon=~c4ef004b~ END
 	LPF ALTER_SPELL_HEADER INT_VAR target=5 projectile=163 END
 	LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=20 END
 	PATCH_FOR_EACH match_opcode IN 17 BEGIN

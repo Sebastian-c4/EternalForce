@@ -1,7 +1,7 @@
 BACKUP ~c4EternalForce/backup~
 AUTHOR ~c4demon@gmail.com~
 
-VERSION ~v4.2~
+VERSION ~v4.3~
 AUTO_EVAL_STRINGS
 
 README ~c4EternalForce/languages/%LANGUAGE%/readme.pdf~
