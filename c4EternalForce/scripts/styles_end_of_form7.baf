@@ -8,7 +8,9 @@ IF
 		Kit(Player%PN%, c4JediC)
 		Kit(Player%PN%, c4JediD)
 	TriggerOverride(Player%PN%,Global("c4EF_Jedi_Style","Locals",%form%))
-	TriggerOverride(Player%PN%,Global("c4EF_Jedi_Style_Form7","Locals",1))
+	OR(2)
+		TriggerOverride(Player%PN%,Global("c4EF_Jedi_Style_Form7","Locals",1))
+		PartyRested()
 THEN
 	RESPONSE #100
 		ReallyForceSpellRES("c4efJj7%form%",Player%PN%)
