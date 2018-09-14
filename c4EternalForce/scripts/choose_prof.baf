@@ -8,6 +8,6 @@ IF
 THEN
 	RESPONSE #100
 		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_Choose_Proficiency_Timer","Locals",6)
-		// Wait(2)
+		Wait(2)
 		ActionOverride(Player%PN%, StartDialogOverride("c4EFDia",Myself))
 END
