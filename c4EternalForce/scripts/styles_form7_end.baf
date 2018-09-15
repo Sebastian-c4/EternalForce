@@ -1,5 +1,5 @@
 
-//七型结束还原
+//七型持续和结束后还原
 IF
 	Class(Player%PN%,PALADIN)
 	OR(4)
@@ -8,11 +8,12 @@ IF
 		Kit(Player%PN%, c4JediC)
 		Kit(Player%PN%, c4JediD)
 	TriggerOverride(Player%PN%,Global("c4EF_Jedi_Style","Locals",%form%))
-	OR(2)
-		TriggerOverride(Player%PN%,Global("c4EF_Jedi_Style_Form7","Locals",1))
-		PartyRested()
+	!HasItemEquiped("c4efJj%form%",Player%PN%)
+	TriggerOverride(Player%PN%,Global("c4EF_Jedi_Style_Form7","Locals",1))
+	!GlobalTimerNotExpired("c4EF_Form7_Player%PN%","Global")
 THEN
 	RESPONSE #100
 		ReallyForceSpellRES("c4efJj7%form%",Player%PN%)
 		Continue()
 END
+

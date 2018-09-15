@@ -1,0 +1,18 @@
+
+//七型持续和结束后还原
+IF
+	Class(Player%PN%,PALADIN)
+	OR(4)
+		Kit(Player%PN%, c4JediA)
+		Kit(Player%PN%, c4JediB)
+		Kit(Player%PN%, c4JediC)
+		Kit(Player%PN%, c4JediD)
+	TriggerOverride(Player%PN%,Global("c4EF_Jedi_Style_Form7","Locals",0))
+	!LevelLT(Player%PN%,%level1%)
+	LevelLT(Player%PN%,%level2%)
+THEN
+	RESPONSE #100
+		ReallyForceSpellRES("c4efJj7Y",Player%PN%)
+		SetGlobalTimer("c4EF_Form7_Player%PN%","Global",%delay%)
+		Continue()
+END

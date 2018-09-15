@@ -148,6 +148,7 @@ THEN
 		ActionOverride(Player%PN%, SetGlobal("c4EF_RedemptionTimer_Activated", "Locals", 0))
 		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_RedemptionTimer", "Locals", 3600000))
 		ActionOverride(Player%PN%, AddKit(c4JediB))
+		ReallyForceSpellRES("c4efJj1-",Player%PN%) //恢复一型剑式
 		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
 		// Continue()
 END
@@ -170,6 +171,7 @@ THEN
 		ActionOverride(Player%PN%, SetGlobal("c4EF_RedemptionTimer_Activated", "Locals", 0))
 		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_RedemptionTimer", "Locals", 3600000))
 		ActionOverride(Player%PN%, AddKit(c4JediC))
+		ReallyForceSpellRES("c4efJj1-",Player%PN%) //恢复一型剑式
 		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
 		// Continue()
 END
@@ -192,6 +194,7 @@ THEN
 		ActionOverride(Player%PN%, SetGlobal("c4EF_RedemptionTimer_Activated", "Locals", 0))
 		ActionOverride(Player%PN%, SetGlobalTimer("c4EF_RedemptionTimer", "Locals", 3600000))
 		ActionOverride(Player%PN%, AddKit(c4JediD))
+		ReallyForceSpellRES("c4efJj1-",Player%PN%) //恢复一型剑式
 		SetGlobalTimer("c4EF_KitChanged_Delay","Locals",3)
 		// Continue()
 END

@@ -225,23 +225,15 @@ LAF CREATE_EFFECT INT_VAR opcode=230 timing=1 parameter1=9 parameter2=1 probabil
 
 ACTION_FOR_EACH type IN A B C BEGIN
 	COPY_EXISTING c4efJj7.itm override
-		LPF CLONE_EFFECT INT_VAR match_opcode=278 opcode=248 parameter1=0 STR_VAR resource=~c4efJj4%type%~ END
+		LPF CLONE_EFFECT INT_VAR match_opcode=278 opcode=248 parameter1=0 STR_VAR resource=~c4efJj7%type%~ END
 END
 
-//按等级添加完全一样的帽子，避免属性被CR
-COPY_EXISTING c4efJj7-.spl override
-	PATCH_DEFINE_ARRAY suffix_array BEGIN A B C D E F G H I END
-	LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=34 level_increment=20 level_multiplier=2 END
-	LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode=143 STR_VAR resource=c4efJj7 suffix_array END
-	
-ACTION_FOR_EACH level IN A B C D E F G H I BEGIN
-	COPY_EXISTING c4efJj7.itm ~override/c4efJj7%level%.itm~
-		INNER_PATCH_SAVE level ~%level%~ BEGIN
-			WRITE_BYTE 0 THIS - 16
-		END
-		LPF ADD_ITEM_EQEFFECT INT_VAR opcode=177 target=1 timing=4 duration=level*6+6 parameter2=2 STR_VAR resource=c4efJj7Y END
-END
+//7型标记
 LAF CREATE_EFFECT INT_VAR opcode=187 timing=1 parameter1=1 savingthrow=BIT24 STR_VAR name=~c4efJj7Y~ variable=~c4EF_Jedi_Style_Form7~ END
+
+LAF CREATE_EMPTY_SPELL STR_VAR name=c4efJj7Y END
+COPY_EXISTING c4efJj7Y.spl override
+	LPF ADD_SPELL_EFFECT INT_VAR opcode=177 target=2 timing=1 parameter2=2 STR_VAR resource=c4efJj7Y END
 	
 //恢复其他剑式
 LAF CREATE_EFFECT INT_VAR opcode=187 timing=1 parameter1=0 savingthrow=BIT24 STR_VAR name=~c4efJj7Z~ variable=~c4EF_Jedi_Style_Form7~ END
@@ -254,6 +246,10 @@ OUTER_FOR (i=1;i<7;++i) BEGIN
 		SET string=2173+i
 		LPF CLONE_EFFECT INT_VAR match_opcode=143 opcode=139 parameter1= RESOLVE_STR_REF ((AT %string%)) END
 END
+
+//堕落时重置7型变量
+COPY_EXISTING_REGEXP GLOB ~c4efSj[12]-.spl~ override
+	LPF CLONE_EFFECT INT_VAR match_opcode=143 opcode=177 parameter1=0 parameter2=2 STR_VAR resource=c4efJj7Z END
 	
 
 

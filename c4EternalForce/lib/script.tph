@@ -9,7 +9,13 @@ COPY ~%SCRIPTS%/erosion_icon_1.baf~ ~%OUTPUT%/erosion_icon.baf~
 COPY ~%SCRIPTS%/styles_switch_skill.baf~ ~%OUTPUT%/styles.baf~
 	APPEND_FILE_EVALUATE ~%SCRIPTS%/styles_abilities.baf~ EVAL
 	FOR (form=1;form<7;++form) BEGIN
-		APPEND_FILE_EVALUATE ~%SCRIPTS%/styles_end_of_form7.baf~ EVAL
+		FOR (form7_level=1;form7_level<10;++form7_level) BEGIN
+			SET level1=16+form7_level*2
+			SET level2=(level1<34) ? (level1+2) : 51
+			SET delay=6+form7_level*6
+			APPEND_FILE_EVALUATE ~%SCRIPTS%/styles_form7_last.baf~
+		END
+		APPEND_FILE_EVALUATE ~%SCRIPTS%/styles_form7_end.baf~
 	END
 
 COPY ~%SCRIPTS%/skills_hla_1.baf~ ~%OUTPUT%/skills_hla.baf~
