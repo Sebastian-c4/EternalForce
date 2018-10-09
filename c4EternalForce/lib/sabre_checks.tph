@@ -31,7 +31,7 @@ ACTION_PHP_EACH kit_armor AS kit0 => spell0 BEGIN
 	
 	//表格中设定宗派标识法术
 	LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_KIT_Identifier_%kit0%_0~ RET ~%kit0%0~=filename END
-	COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%%kit0%0%.spl~
+	COPY ~%mod_root%/itm/c4efLS00.spl~ ~override/%%kit0%0%.spl~
 		WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
 		PATCH_BASH_FOR ~override~ ~c4ef[JS]W[123][A-D].itm~ BEGIN
 			LPF ADD_SPELL_EFFECT INT_VAR opcode=112 timing=1 target=2 STR_VAR resource=~%BASH_FOR_RES%~ END
@@ -66,7 +66,7 @@ ACTION_PHP_EACH kit_armor AS kit0 => spell0 BEGIN
 		
 		//初次添加
 		LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_GIVE_%weapon%_NEW~ RET spell=filename END
-		COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%spell%.spl~
+		COPY ~%mod_root%/itm/c4efLS00.spl~ ~override/%spell%.spl~
 			WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
 			LPF ADD_SPELL_EFFECT INT_VAR opcode=177 timing=1 target=2 parameter2=2 STR_VAR resource= EVAL ~%%kit%2%~ END
 			LPF ADD_SPELL_EFFECT INT_VAR opcode=122 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
@@ -75,7 +75,7 @@ ACTION_PHP_EACH kit_armor AS kit0 => spell0 BEGIN
 			
 		//不可丢弃
 		LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_GIVE_%weapon%_NODROP~ RET spell=filename END
-		COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%spell%.spl~
+		COPY ~%mod_root%/itm/c4efLS00.spl~ ~override/%spell%.spl~
 			WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
 			LPF ADD_SPELL_EFFECT INT_VAR opcode=122 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
 			SET string=tra_base+2
@@ -83,7 +83,7 @@ ACTION_PHP_EACH kit_armor AS kit0 => spell0 BEGIN
 			
 		//错误专攻
 		LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_TAKE_%weapon%_WRONG_PROF~ RET spell=filename END
-		COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%spell%.spl~
+		COPY ~%mod_root%/itm/c4efLS00.spl~ ~override/%spell%.spl~
 			WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
 			LPF ADD_SPELL_EFFECT INT_VAR opcode=112 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
 			LPF ADD_SPELL_EFFECT INT_VAR opcode=123 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
@@ -92,7 +92,7 @@ ACTION_PHP_EACH kit_armor AS kit0 => spell0 BEGIN
 			
 		//错误职业
 		LAF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_TAKE_%weapon%_WRONG_KIT~ RET spell=filename END
-		COPY ~%MOD_FOLDER%/items/c4efLS00.spl~ ~override/%spell%.spl~
+		COPY ~%mod_root%/itm/c4efLS00.spl~ ~override/%spell%.spl~
 			WRITE_LONG 0x18 (BIT14 + BIT15 + BIT24 +  BIT25)
 			LPF ADD_SPELL_EFFECT INT_VAR opcode=112 timing=1 target=2 STR_VAR resource= ~%weapon%~ END
 			LPF ADD_SPELL_EFFECT INT_VAR opcode=123 timing=1 target=2 STR_VAR resource= ~%weapon%~ END

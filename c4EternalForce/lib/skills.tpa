@@ -1,0 +1,445 @@
+DEFINE_ACTION_FUNCTION skills BEGIN
+
+	ACTION_BASH_FOR ~%SKILLS%~ ~.*\.spl~ BEGIN
+		COPY ~%BASH_FOR_FILESPEC%~ ~%workspace%~
+			PATCH_IF FILE_EXISTS ~override/%BASH_FOR_RES%b.bam~ BEGIN
+				WRITE_ASCIIE 0x3a ~%BASH_FOR_RES%b~
+				LPF ALTER_SPELL_HEADER STR_VAR icon=~%BASH_FOR_RES%b~ END
+				PATCH_IF FILE_EXISTS ~override/%BASH_FOR_RES%c.bam~ BEGIN
+					WRITE_ASCIIE 0x3a ~%BASH_FOR_RES%c~
+				END
+			END
+			SNPRINT 7 BASE_RES ~%BASH_FOR_RES%~
+			PATCH_IF ~%BASE_RES%A~ STR_EQ ~%BASH_FOR_RES%~ BEGIN
+				PATCH_IF FILE_EXISTS ~override/%BASE_RES%b.bam~ BEGIN
+					WRITE_ASCIIE 0x3a ~%BASE_RES%b~
+					LPF ALTER_SPELL_HEADER STR_VAR icon=~%BASE_RES%b~ END
+					PATCH_IF FILE_EXISTS ~override/%BASE_RES%c.bam~ BEGIN
+						WRITE_ASCIIE 0x3a ~%BASE_RES%c~
+					END
+				END
+			END
+	END
+
+
+	/* 0级能力 */
+	//原力感应
+	COPY ~%workspace%/c4ef001.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=25 level_multiplier=5 level_increment=5 END
+		PATCH_FOR_EACH match_opcode IN 0 278 325 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=1 multi_parameter1=1 END
+		END
+		SAY NAME1 @3001
+		SAY UNIDENTIFIED_DESC @4001
+		
+	//强效原力感应
+	COPY ~%workspace%/c4ef001.spl~ ~override/c4ef002.spl~
+		LPF ALTER_SPELL_HEADER STR_VAR icon=~c4ef002b~ END
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=30 level_multiplier=5 level_increment=5 END
+		PATCH_FOR_EACH match_opcode IN 0 278 325 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=2 multi_parameter1=1 END
+		END
+		SAY NAME1 @3002
+		SAY UNIDENTIFIED_DESC @4002
+		
+	//原力治疗
+	OUTER_SET $erosion_value(003) = ~-1~
+	COPY ~%workspace%/c4ef003.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=20 END
+		PATCH_FOR_EACH match_opcode IN 17 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=3 multi_parameter1=3 END
+		END
+		SAY NAME1 @3003
+		SAY UNIDENTIFIED_DESC @4003
+		
+	//原力救援
+	OUTER_SET $erosion_value(004) = ~-1~
+	COPY ~%workspace%/c4ef003.spl~ ~override/c4ef004.spl~
+		LPF ALTER_SPELL_HEADER STR_VAR icon=~c4ef004b~ END
+		LPF ALTER_SPELL_HEADER INT_VAR target=5 projectile=163 END
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=20 END
+		PATCH_FOR_EACH match_opcode IN 17 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=3 multi_parameter1=3 END
+		END
+		SAY NAME1 @3004
+		SAY UNIDENTIFIED_DESC @4004
+		
+	//恐慌结界
+	OUTER_SET $erosion_value(005) = ~1~
+	COPY ~%workspace%/c4ef005.spl~ override
+		LPF CLONE_EFFECT INT_VAR match_opcode=142 opcode=146 timing=1 parameter2=1 STR_VAR resource=~c4ef005B~ insert=last END
+		FOR (i=1;i<11;++i) BEGIN
+			LPF CLONE_EFFECT INT_VAR match_opcode=142 opcode=146 timing=4 duration=i*6 parameter2=1 STR_VAR resource=~c4ef005B~ insert=last END
+		END
+		SAY NAME1 @3005
+		SAY UNIDENTIFIED_DESC @4005
+
+	COPY ~%workspace%/c4ef005B.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=20 level_increment=4 level_multiplier=4 END
+		PATCH_FOR_EACH match_opcode IN 278 0 22 BEGIN
+			LPF CLONE_EFFECT INT_VAR match_opcode match_savingthrow=BIT2+BIT24 savingthrow=BIT24 END
+		END
+		PATCH_FOR_EACH match_opcode IN 278 0 22 24 142 139 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode match_savingthrow=BIT2+BIT24 savebonus=1 multi_savebonus=1 END
+		END
+		
+	COPY_EXISTING c4ef005B.spl override
+		GET_OFFSET_ARRAY header SPL_V10_HEADERS
+		PHP_EACH header AS int => index BEGIN
+			GET_OFFSET_ARRAY2 effect index SPL_V10_HEAD_EFFECTS
+			PHP_EACH effect AS int => offset BEGIN
+				READ_LONG offset+0x24 savetype
+				PATCH_IF savetype=BIT2+BIT24 BEGIN
+					WRITE_LONG offset+0x28 0 - THIS
+				END
+			END
+		END
+		
+	/* 1级能力 */
+	//原力吸收
+	COPY ~%workspace%/c4ef101.spl~ override
+		PATCH_FOR_EACH match_opcode IN 27 28 29 30 31 84 85 BEGIN
+			LPF ALTER_EFFECT INT_VAR match_opcode parameter1=20 END
+		END
+		PATCH_FOR_EACH match_opcode IN 27 28 29 30 31 84 85 142 BEGIN
+			LPF ALTER_EFFECT INT_VAR match_opcode timing=0 duration=120 END
+		END
+		SAY NAME1 @3101
+		SAY UNIDENTIFIED_DESC @4101
+		
+	//高级原力吸收
+	COPY_EXISTING c4ef101.spl ~override/c4ef102.spl~
+		PATCH_FOR_EACH match_opcode IN 27 28 29 30 31 84 85 BEGIN
+			LPF ALTER_EFFECT INT_VAR match_opcode parameter1=40 END
+		END
+		SAY NAME1 @3102
+		SAY UNIDENTIFIED_DESC @4102
+		
+	//原力屏障
+	COPY ~%workspace%/c4ef103.spl~ override
+		PATCH_FOR_EACH match_opcode IN 86 87 88 89 BEGIN
+			LPF ALTER_EFFECT INT_VAR match_opcode parameter1=20 END
+		END
+		PATCH_FOR_EACH match_opcode IN 86 87 88 89 142 BEGIN
+			LPF ALTER_EFFECT INT_VAR match_opcode timing=0 duration=120 END
+		END
+		SAY NAME1 @3103
+		SAY UNIDENTIFIED_DESC @4103
+		
+	//高级原力屏障
+	COPY_EXISTING c4ef103.spl ~override/c4ef104.spl~
+		PATCH_FOR_EACH match_opcode IN 86 87 88 89 BEGIN
+			LPF ALTER_EFFECT INT_VAR match_opcode parameter1=40 END
+		END
+		SAY NAME1 @3104
+		SAY UNIDENTIFIED_DESC @4104
+		
+	//原力感知
+	OUTER_SET $erosion_value(105) = ~-1~
+	COPY ~%workspace%/c4ef105.spl~ override
+		LPF CLONE_EFFECT INT_VAR match_opcode=215 opcode=146 timing=1 parameter2=1 STR_VAR resource=~c4ef105B~ insert=last END
+		FOR (i=1;i<21;++i) BEGIN
+			LPF CLONE_EFFECT INT_VAR match_opcode=215 opcode=146 timing=4 duration=i*3 parameter2=1 STR_VAR resource=~c4ef105B~ insert=last END
+		END
+		SAY NAME1 @3105
+		SAY UNIDENTIFIED_DESC @4105
+		
+	ADD_PROJECTILE ~%PROJECTILE%/c4ef105.pro~
+	COPY ~%workspace%/c4ef105B.spl~ override
+		LPF ALTER_SPELL_HEADER INT_VAR projectile=c4ef105 END
+		LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1= RESOLVE_STR_REF ((AT 31051)) END
+		
+	//原力电击
+	OUTER_SET $erosion_value(106) = ~1~
+	COPY ~%workspace%/c4ef106.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=20 END
+		PATCH_FOR_EACH match_opcode IN 12 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=1 multi_parameter1=1 END
+		END
+		SAY NAME1 @3106
+		SAY UNIDENTIFIED_DESC @4106
+		
+	//仇恨之箭
+	OUTER_SET $erosion_value(107) = ~1~
+	COPY ~%workspace%/c4ef107.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=30 END
+		PATCH_FOR_EACH match_opcode IN 12 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=1 multi_parameter1=1 END
+		END
+		SAY NAME1 @3107
+		SAY UNIDENTIFIED_DESC @4107
+
+	/* 2级技能 */
+	//战斗冥想
+	COPY ~%workspace%/c4ef201.spl~ override
+		PATCH_FOR_EACH match_opcode IN 37 278 250 BEGIN
+			LPF ALTER_EFFECT INT_VAR match_opcode parameter1=2 END
+		END
+		LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1= RESOLVE_STR_REF ((AT 3201)) END
+		SAY NAME1 @3201
+		SAY UNIDENTIFIED_DESC @4201
+		
+	//强效战斗冥想
+	COPY ~%workspace%/c4ef201.spl~ ~override/c4ef202.spl~
+		PATCH_FOR_EACH match_opcode IN 37 278 250 BEGIN
+			LPF ALTER_EFFECT INT_VAR match_opcode parameter1=4 END
+		END
+		LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1= RESOLVE_STR_REF ((AT 3202)) END
+		SAY NAME1 @3202
+		SAY UNIDENTIFIED_DESC @4202
+		
+	//原力控心
+	COPY ~%workspace%/c4ef203.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=20 level_increment=4 level_multiplier=4 END
+		PATCH_FOR_EACH match_opcode IN 5 142 174 139 215 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode multi_savebonus=1 END
+		END
+		SAY NAME1 @3203
+		SAY UNIDENTIFIED_DESC @4203
+		
+	COPY_EXISTING c4ef203.spl override
+		GET_OFFSET_ARRAY header SPL_V10_HEADERS
+		PHP_EACH header AS int => index BEGIN
+			GET_OFFSET_ARRAY2 effect index SPL_V10_HEAD_EFFECTS
+			PHP_EACH effect AS int => offset BEGIN
+				READ_LONG offset+0x24 savetype
+				PATCH_IF savetype=BIT0+BIT24 BEGIN
+					WRITE_LONG offset+0x28 0 - THIS
+				END
+			END
+		END
+		
+	//原力幻影
+	OUTER_SET $erosion_value(204) = ~-1~
+	COPY ~%workspace%/c4ef204.spl~ override
+		LPF ALTER_EFFECT INT_VAR match_opcode=159 parameter1=3 END
+		LPF ALTER_EFFECT INT_VAR match_opcode=0 parameter1=2 END
+		LPF ALTER_EFFECT INT_VAR match_opcode=0 match_parameter2=2 parameter1=4 END
+		SAY NAME1 @3204
+		SAY UNIDENTIFIED_DESC @4204
+		
+	//高级原力幻影
+	OUTER_SET $erosion_value(205) = ~-1~
+	COPY ~%workspace%/c4ef204.spl~ ~override/c4ef205.spl~
+		LPF ALTER_EFFECT INT_VAR match_opcode=159 parameter1=6 END
+		LPF ALTER_EFFECT INT_VAR match_opcode=0 parameter1=3 END
+		LPF ALTER_EFFECT INT_VAR match_opcode=0 match_parameter2=2 parameter1=6 END
+		SAY NAME1 @3205
+		SAY UNIDENTIFIED_DESC @4205
+		
+	//原力抽取
+	OUTER_SET $erosion_value(206) = ~2~
+	COPY ~%workspace%/c4ef206.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=32 level_increment=4 level_multiplier=4 END
+		PATCH_FOR_EACH match_opcode IN 12 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode multi_dicenumber=1 END
+		END
+		SAY NAME1 @3206
+		SAY UNIDENTIFIED_DESC @4206
+
+	//死亡立场
+	OUTER_SET $erosion_value(207) = ~2~
+	ADD_PROJECTILE ~%PROJECTILE%/c4ef207.pro~
+	COPY_EXISTING c4ef206.spl ~override/c4ef207.spl~
+		WRITE_ASCII 0x3a c4ef207b
+		LPF ALTER_SPELL_HEADER INT_VAR speed=5 range=0 target=5 projectile=c4ef207 STR_VAR icon=c4ef207b END
+		LPF ALTER_EFFECT INT_VAR match_opcode=324 STR_VAR resource=c4ef207 END
+		SAY NAME1 @3207
+		SAY UNIDENTIFIED_DESC @4207
+			
+	//黑暗狂暴
+	OUTER_SET $erosion_value(208) = ~2~
+	COPY ~%workspace%/c4ef208.spl~ override
+		LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1= RESOLVE_STR_REF (@32081) END
+		LPF CREATE_HEADERS_AS_LEVEL END
+		PATCH_FOR_EACH match_opcode IN 12 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode multi_parameter1=1 END
+		END
+		PATCH_FOR_EACH match_opcode IN 73 278 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode multi_parameter1=1 END
+		END
+		SAY NAME1 @3208
+		SAY UNIDENTIFIED_DESC @4208
+
+	COPY_EXISTING c4ef208.spl override
+		GET_OFFSET_ARRAY header SPL_V10_HEADERS
+		PHP_EACH header AS int => index BEGIN
+			GET_OFFSET_ARRAY2 effect index SPL_V10_HEAD_EFFECTS
+			PHP_EACH effect AS int => offset BEGIN
+				READ_SHORT offset opcode
+				PATCH_IF opcode=73 || opcode=278 BEGIN
+					READ_LONG offset+4 value
+					SET value = (value/3)+6
+					WRITE_LONG offset+4 value
+				END
+			END
+		END
+		
+	/* 3级能力 */
+	//原力推击
+	COPY ~%workspace%/c4ef301.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=20 END
+		PATCH_FOR_EACH match_opcode IN 12 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode multi_parameter1=1 END
+		END
+		SAY NAME1 @3301
+		SAY UNIDENTIFIED_DESC @4301
+		
+	//原力牵引
+	COPY ~%workspace%/c4ef302.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=20 END
+		PATCH_FOR_EACH match_opcode IN 12 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode multi_parameter1=1 END
+		END
+		SAY NAME1 @3302
+		SAY UNIDENTIFIED_DESC @4302
+		
+	//原力闪光
+	OUTER_SET $erosion_value(303) = ~-1~
+	COPY ~%workspace%/c4ef303.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=24 level_increment=24 END
+		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR savebonus=~-4~ multi_savebonus=~-2~ END
+		SAY NAME1 @3303
+		SAY UNIDENTIFIED_DESC @4303
+
+	//原力折磨
+	OUTER_SET $erosion_value(304) = ~3~
+	COPY ~%workspace%/c4ef304.spl~ override
+		SAY NAME1 @3304
+		SAY UNIDENTIFIED_DESC @4304
+
+	//死亡凝视
+	OUTER_SET $erosion_value(305) = ~3~
+	COPY ~%workspace%/c4ef305.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR level_multiplier=5 level_increment=10 END
+		PATCH_DEFINE_ARRAY suffix_array BEGIN B C D E F G H I J K END
+		PATCH_FOR_EACH match_opcode IN 272 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode match_parameter1=2 STR_VAR resource=c4ef305 suffix_array END
+		END
+		SAY NAME1 @3305
+		SAY UNIDENTIFIED_DESC @4305
+
+	OUTER_SET damage305=0
+	ACTION_FOR_EACH eff305 IN B C D E F G H I J K BEGIN
+		OUTER_SET ++damage305
+		LAF CREATE_EFFECT INT_VAR opcode=12 timing=1 parameter1=damage305 savingthrow=BIT24 STR_VAR name=~c4ef305%eff305%~ END
+	END
+
+	/* 4级能力 */
+	//原力推击
+	COPY ~%workspace%/c4ef401.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR level_increment=10 level_multiplier=5 END
+		PATCH_FOR_EACH match_opcode IN 12 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=2 multi_parameter1=2 dicenumber=2 multi_dicenumber=2 END
+		END
+		SAY NAME1 @3401
+		SAY UNIDENTIFIED_DESC @4401
+		
+	//原力偏折
+	COPY ~%workspace%/c4ef402.spl~ override
+		SAY NAME1 @3402
+		SAY UNIDENTIFIED_DESC @4402
+		
+	COPY ~%workspace%/c4ef402B.spl~ override
+		LPF ALTER_EFFECT INT_VAR match_opcode=321 STR_VAR resource=c4ef402 END
+		LPF CREATE_HEADERS_AS_LEVEL END
+		PATCH_FOR_EACH match_opcode IN 17 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=1 multi_parameter1=1 END
+		END
+		
+	//强效原力偏折
+	COPY ~%workspace%/c4ef402.spl~ ~override/c4ef403.spl~
+		LPF ALTER_EFFECT INT_VAR match_opcode=201 parameter1=15 END
+		LPF ALTER_EFFECT STR_VAR match_resource=c4ef402B resource=c4ef403B END
+		SAY NAME1 @3403
+		SAY UNIDENTIFIED_DESC @4403
+		
+	COPY ~%workspace%/c4ef402B.spl~ ~override/c4ef403B.spl~
+		LPF ALTER_EFFECT INT_VAR match_opcode=321 STR_VAR resource=c4ef403 END
+		LPF CREATE_HEADERS_AS_LEVEL END
+		PATCH_FOR_EACH match_opcode IN 17 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=11 multi_parameter1=1 END
+		END
+
+	//根骨强化
+	OUTER_SET $erosion_value(404) = ~-1~
+	COPY ~%workspace%/c4ef404.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=25 level_increment=5 level_multiplier=5 END
+		PATCH_FOR_EACH match_opcode IN 132 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=1 multi_parameter1=1 END
+		END
+		SAY NAME1 @3404
+		SAY UNIDENTIFIED_DESC @4404
+
+	//高级根骨强化
+	OUTER_SET $erosion_value(405) = ~-1~
+	COPY ~%workspace%/c4ef404.spl~ ~override/c4ef405.spl~
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR max_level=30 level_increment=5 level_multiplier=5 END
+		PATCH_FOR_EACH match_opcode IN 132 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=2 multi_parameter1=1 END
+		END
+		SAY NAME1 @3405
+		SAY UNIDENTIFIED_DESC @4405
+
+	//原力窒息
+	OUTER_SET $erosion_value(406) = ~4~
+	COPY ~%workspace%/c4ef406.spl~ override
+		LPF ALTER_EFFECT INT_VAR match_opcode=139 match_savebonus=~-4~ parameter1= RESOLVE_STR_REF ((AT 34061)) END
+		LPF ALTER_EFFECT INT_VAR match_opcode=139 match_savebonus=0 parameter1= RESOLVE_STR_REF ((AT 34062)) END
+		SAY NAME1 @3406
+		SAY UNIDENTIFIED_DESC @4406
+
+	//原力怒涛
+	OUTER_SET $erosion_value(407) = ~4~
+	COPY ~%workspace%/c4ef407.spl~ override
+		LPF CREATE_HEADERS_AS_LEVEL INT_VAR level_increment=2 level_multiplier=2 END
+		PATCH_FOR_EACH match_opcode IN 12 BEGIN
+			LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode multi_dicenumber=1 END
+		END
+		SAY NAME1 @3407
+		SAY UNIDENTIFIED_DESC @4407
+		
+	COPY_EXISTING c4ef407.spl override
+		GET_OFFSET_ARRAY header SPL_V10_HEADERS
+		PHP_EACH header AS int => index BEGIN
+			READ_SHORT index+0x10 rlevel
+			GET_OFFSET_ARRAY2 effect index SPL_V10_HEAD_EFFECTS
+			PHP_EACH effect AS int => offset BEGIN
+				READ_SHORT offset opcode
+				PATCH_IF opcode=12 BEGIN
+					READ_LONG offset+0x1c dn
+					dn = (rlevel<24) ? dn : (rlevel<32) ? dn+6 : dn+12
+					WRITE_LONG offset+0x1c dn
+				END
+			END
+		END
+
+
+	/* 全局 */
+	//防叠加
+	ACTION_FOR_EACH file IN
+		001 002 005 005B
+		101 102 103 104 105
+		201 202 204 205 208
+		303 304 305
+		402 403 404 405 406
+	BEGIN
+		COPY_EXISTING ~c4ef%file%.spl~ override
+			LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=321 target=1 STR_VAR resource=~%SOURCE_RES%~ END
+	END
+
+	//侵蚀度标记
+	ACTION_PHP_EACH erosion_value AS file => value BEGIN
+		COPY_EXISTING ~c4ef%file%.spl~ override
+			LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=177 target=1 timing=1 parameter2=2 STR_VAR resource=~c4efES%value%~ END
+	END
+
+	//原力迅捷
+	COPY_EXISTING_REGEXP GLOB ~c4ef[1-4][0-9][0-9]\.spl~ override ~c4ef00[1-4]\.spl~ override
+		LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=146 target=1 timing=1 parameter2=1 probability1=20 STR_VAR resource=~c4efJjIA~ END
+		LPF ADD_SPELL_EFFECT INT_VAR insert_point=0 opcode=321 target=1 timing=0 STR_VAR resource=~c4efJjIA~ END
+
+	/* 高阶 */
+	INCLUDE ~%LIBS%/skills_HLA.tph~
+	
+END

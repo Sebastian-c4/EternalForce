@@ -1,0 +1,65 @@
+DEFINE_ACTION_FUNCTION script BEGIN
+
+	LAF create_observer STR_VAR name=c4efOBV END
+
+	COPY ~%SCRIPTS%/erosion_icon_1.baf~ ~%workspace%/erosion_icon.baf~
+		FOR (sd=1;sd<30;++sd) BEGIN
+			APPEND_FILE_EVALUATE ~%SCRIPTS%/erosion_icon_2.baf~ EVAL
+		END
+		
+	COPY ~%SCRIPTS%/styles_switch_skill.baf~ ~%workspace%/styles.baf~
+		APPEND_FILE_EVALUATE ~%SCRIPTS%/styles_abilities.baf~ EVAL
+		FOR (form=1;form<7;++form) BEGIN
+			FOR (form7_level=1;form7_level<10;++form7_level) BEGIN
+				SET level1=16+form7_level*2
+				SET level2=(level1<34) ? (level1+2) : 51
+				SET delay=6+form7_level*6
+				APPEND_FILE_EVALUATE ~%SCRIPTS%/styles_form7_last.baf~
+			END
+			APPEND_FILE_EVALUATE ~%SCRIPTS%/styles_form7_end.baf~
+		END
+
+	COPY ~%SCRIPTS%/skills_hla_1.baf~ ~%workspace%/skills_hla.baf~
+		PATCH_FOR_EACH skill IN 602 604 605 606 702 703 704 705 707 BEGIN
+			INNER_PATCH ~%skill%~ BEGIN
+				READ_BYTE 0 type
+				type=type -48
+				PATCH_IF type=6 BEGIN
+					SPRINT match_kit "OR(2) Kit(Player%PN%, c4JediC) Kit(Player%PN%, c4JediD)"
+				END ELSE SPRINT match_kit "Kit(Player%PN%, c4SithB)"
+			END
+			PATCH_IF skill=606 || skill=707 BEGIN
+				SPRINT real ~%skill%A~
+			END ELSE SPRINT real ~%skill%~
+			APPEND_FILE_EVALUATE ~%SCRIPTS%/skills_hla_2.baf~
+		END
+
+	COPY ~%SCRIPTS%/armor_check.baf~ ~%workspace%/armor_and_sabre.baf~
+		APPEND_FILE_EVALUATE ~%SCRIPTS%/sabre_check_both.baf~ EVAL
+		PHP_EACH sabre_check AS value => prof BEGIN
+			SPRINT weapon ~%value_0%~
+			SPRINT kit1 ~%value_1%~
+			SPRINT kit2 ~%value_2%~
+			
+			LPF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_GIVE_%weapon%_NEW~ RET spell1=filename END
+			LPF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_GIVE_%weapon%_NODROP~ RET spell2=filename END
+			LPF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_TAKE_%weapon%_WRONG_PROF~ RET spell3=filename END
+			LPF GET_UNIQUE_FILE_NAME STR_VAR extension=spl base=~c4EF_TAKE_%weapon%_WRONG_KIT~ RET spell4=filename END
+			
+			APPEND_FILE_EVALUATE ~%SCRIPTS%/sabre_check.baf~
+		END
+
+	COPY ~%SCRIPTS%/see_enemy.baf~ ~%workspace%/observer.baf~
+		APPEND_FILE ~%SCRIPTS%/choose_prof.baf~
+		APPEND_FILE ~%workspace%/erosion_icon.baf~
+		APPEND_FILE ~%workspace%/styles.baf~
+		APPEND_FILE ~%workspace%/skills_hla.baf~
+		APPEND_FILE ~%workspace%/armor_and_sabre.baf~
+		APPEND_FILE ~%SCRIPTS%/kit_upgrade.baf~
+		APPEND_FILE ~%SCRIPTS%/alignment_change.baf~
+
+	OUTER_FOR (PN=1;PN<7;++PN) BEGIN
+		EXTEND_BOTTOM ~c4efOBV%PN%.bcs~ ~%workspace%/observer.baf~ EVAL
+	END
+	
+END

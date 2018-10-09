@@ -4,7 +4,7 @@ ACTION_CLEAR_ARRAY erosion_value
 
 /*通用 */
 //原力锁喉
-COPY ~%SKILLS%/c4ef501.spl~ override
+COPY ~%workspace%/c4ef501.spl~ override
 	SAY NAME1 @3501
 	SAY UNIDENTIFIED_DESC @4501
 	
@@ -18,7 +18,7 @@ END
 
 ACTION_PHP_EACH suffix501 AS now => savebonus BEGIN
 	OUTER_SPRINT next ~%now_1%~
-	COPY ~%SKILLS%/c4ef501A.spl~ ~override/c4ef501%now%.spl~
+	COPY ~%workspace%/c4ef501A.spl~ ~override/c4ef501%now%.spl~
 		LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1= RESOLVE_STR_REF (@35011) END
 		PATCH_IF ~%now%~ STR_CMP E BEGIN
 			LPF ALTER_EFFECT INT_VAR match_opcode=146 savebonus STR_VAR resource= ~c4ef501%next%~ END
@@ -36,14 +36,14 @@ ACTION_PHP_EACH suffix501 AS now => savebonus BEGIN
 END
 
 //原力鸡脖
-COPY ~%SKILLS%/c4ef502.spl~ override
+COPY ~%workspace%/c4ef502.spl~ override
 	SAY NAME1 @3502
 	SAY UNIDENTIFIED_DESC @4502
 
-COPY ~%SKILLS%/c4ef502A.spl~ override
+COPY ~%workspace%/c4ef502A.spl~ override
 
 ADD_PROJECTILE ~%PROJECTILE%/c4ef502b.pro~
-COPY ~%SKILLS%/c4ef502B.spl~ override
+COPY ~%workspace%/c4ef502B.spl~ override
 	LPF ALTER_SPELL_HEADER INT_VAR projectile=c4ef502b END
 	LPF CREATE_HEADERS_AS_LEVEL INT_VAR level_increment=4 level_multiplier=2 END
 	PATCH_FOR_EACH match_opcode IN 12 BEGIN
@@ -51,7 +51,7 @@ COPY ~%SKILLS%/c4ef502B.spl~ override
 	END
 
 //意志维持
-COPY ~%SKILLS%/c4ef503.spl~ override
+COPY ~%workspace%/c4ef503.spl~ override
 	SAY NAME1 @3503
 	SAY UNIDENTIFIED_DESC @4503
 
@@ -88,7 +88,7 @@ COPY_EXISTING c4ef601.spl override
 	
 //原力审判
 OUTER_SET $erosion_value(602) = ~-1~
-COPY ~%SKILLS%/c4ef602.spl~ override
+COPY ~%workspace%/c4ef602.spl~ override
 	LPF CREATE_HEADERS_AS_LEVEL INT_VAR level_increment=4 level_multiplier=2 END
 	PATCH_FOR_EACH match_opcode IN 12 BEGIN
 		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode  dicenumber=2 multi_dicenumber=2 END
@@ -109,14 +109,14 @@ COPY_EXISTING c4ef603.spl override
 	
 //原力武装
 OUTER_SET $erosion_value(604) = ~-1~
-COPY ~%SKILLS%/c4ef604.spl~ override
+COPY ~%workspace%/c4ef604.spl~ override
 	SAY NAME1 @3604
 	SAY UNIDENTIFIED_DESC @4604
 	
 //原力英勇
 OUTER_SET $erosion_value(605) = ~-1~
 ADD_PROJECTILE ~%PROJECTILE%/c4ef605.pro~
-COPY ~%SKILLS%/c4ef605.spl~ override
+COPY ~%workspace%/c4ef605.spl~ override
 	LPF ALTER_SPELL_HEADER INT_VAR projectile=c4ef605 END
 	LPF CREATE_HEADERS_AS_LEVEL INT_VAR END
 	PATCH_FOR_EACH match_opcode IN 0 278 73 325 296 101 50 142 328 174 267 169 106 BEGIN
@@ -137,7 +137,7 @@ COPY_EXISTING c4ef606.spl override
 
 OUTER_SET $erosion_value(606A) = ~-1~
 ADD_PROJECTILE ~%PROJECTILE%/c4ef606A.pro~
-COPY ~%SKILLS%/c4ef606A.spl~ override
+COPY ~%workspace%/c4ef606A.spl~ override
 	LPF ALTER_SPELL_HEADER INT_VAR projectile=c4ef606A END
 	PATCH_FOR_EACH type IN 1 2 4 8 256 BEGIN
 		LPF ADD_SPELL_EFFECT INT_VAR opcode=12 target=2 timing=1 parameter2=type<<16 dicesize=6 dicenumber=4 savingthrow=BIT24 END
@@ -159,7 +159,7 @@ COPY_EXISTING c4ef701.spl override
 	
 //原力闪电
 OUTER_SET $erosion_value(702) = ~5~
-COPY ~%SKILLS%/c4ef702.spl~ override
+COPY ~%workspace%/c4ef702.spl~ override
 	LPF CREATE_HEADERS_AS_LEVEL INT_VAR level_increment=4 level_multiplier=2 END
 	PATCH_FOR_EACH match_opcode IN 12 BEGIN
 		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode  dicenumber=2 multi_dicenumber=2 END
@@ -169,7 +169,7 @@ COPY ~%SKILLS%/c4ef702.spl~ override
 	
 //纤原体
 OUTER_SET $erosion_value(703) = ~5~
-COPY ~%SKILLS%/c4ef703.spl~ override
+COPY ~%workspace%/c4ef703.spl~ override
 	LPF CREATE_HEADERS_AS_LEVEL END
 	PATCH_FOR_EACH match_opcode IN 18 BEGIN
 		LPF ALTER_HEADER_EFFECTS_AS_LEVEL INT_VAR match_opcode parameter1=6 multi_parameter1=6 END
@@ -190,7 +190,7 @@ COPY ~%SKILLS%/c4ef703.spl~ override
 	
 //暗影矛
 OUTER_SET $erosion_value(704) = ~5~
-COPY ~%SKILLS%/c4ef704.spl~ override
+COPY ~%workspace%/c4ef704.spl~ override
 	SAY NAME1 @3704
 	SAY UNIDENTIFIED_DESC @4704
 	
@@ -200,7 +200,7 @@ COPY_EXISTING c4ef704.itm override
 
 //原力魅影
 OUTER_SET $erosion_value(705) = ~5~
-COPY ~%SKILLS%/c4ef705.spl~ override
+COPY ~%workspace%/c4ef705.spl~ override
 	SAY NAME1 @3705
 	SAY UNIDENTIFIED_DESC @4705
 	
@@ -252,7 +252,7 @@ ACTION_FOR_EACH file IN sppr413 BEGIN
 END
 
 //原力共振
-COPY ~%SKILLS%/c4ef706.spl~ override
+COPY ~%workspace%/c4ef706.spl~ override
 	SAY NAME1 @3706
 	SAY UNIDENTIFIED_DESC @4706
 
@@ -267,7 +267,7 @@ COPY_EXISTING c4ef707.spl override
 	SAY UNIDENTIFIED_DESC @4707
 
 OUTER_SET $erosion_value(707A) = ~5~
-COPY ~%SKILLS%/c4ef707A.spl~ override
+COPY ~%workspace%/c4ef707A.spl~ override
 	LPF ALTER_SPELL_HEADER INT_VAR projectile=c4ef606A END
 	PATCH_FOR_EACH type IN 512 1024 1 32 64 256 BEGIN
 		LPF ADD_SPELL_EFFECT INT_VAR opcode=12 target=2 timing=1 parameter2=type<<16 dicesize=6 dicenumber=6 savingthrow=BIT24 END

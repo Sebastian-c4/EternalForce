@@ -1,0 +1,42 @@
+
+DEFINE_ACTION_FUNCTION install_kits BEGIN
+
+	/* copy */
+	COPY ~%mod_root%/2da~							override
+	COPY ~%mod_root%/bam~							override
+	COPY ~%mod_root%/cre~							override
+	COPY ~%mod_root%/eff~							override
+	COPY ~%mod_root%/itm/copy~				override
+	COPY ~%mod_root%/skills/copy~ 		override
+	COPY ~%mod_root%/styles/copy~ 		override
+	
+	// version mark
+	COPY ~.../c4_inlined/blank.baf~ ~override/c4EternalForce_version_%c4EternalForceVer%.mrk~
+
+	/* 专攻选择对话 */
+	WITH_TRA "%tra_loc%/%base_language%/dialog.tra" "%tra_loc%/%LANGUAGE%/dialog.tra" BEGIN
+		COMPILE ~%mod_root%/dlg/dialog.d~ EVAL
+	END
+
+	// addkit
+	LAF run STR_VAR file=add_kits file_loc=lib tra=kitname END
+	
+	// 被动
+	LAF run STR_VAR file=passive file_loc=lib tra=items END
+
+	/* 侵蚀度设置和显示 */
+	LAF run STR_VAR file=protrait_icon file_loc=lib tra=skills END
+	
+	/* 装备和剑术专攻 */
+	LAF run STR_VAR file=armor_and_sabre file_loc=lib tra=items END
+
+	/* 剑式 */
+	LAF run STR_VAR file=styles file_loc=lib tra=styles END
+
+	/* 原力技能 */
+	LAF run STR_VAR file=skills file_loc=lib tra=skills END
+
+	/* 脚本 */
+	LAF run STR_VAR file=script file_loc=lib tra=items END
+
+END
