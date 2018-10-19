@@ -30,5 +30,5 @@ BEGIN @-1
 DESIGNATED 1
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @-10000
 
-
+OUTER_SET c4EternalForceVer=440
 LAF run STR_VAR file=install_kits file_loc=components END
