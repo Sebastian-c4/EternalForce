@@ -21,10 +21,10 @@ LANGUAGE 	~Simplified Chinese~
 					~schinese~
 					~c4EternalForce/lang/schinese/prompts/prompts-%WEIDU_OS%.tra~
 					~c4EternalForce/lang/schinese/setup.tra~
-					// ~c4EternalForce/lang/schinese/kitname.tra~
-					// ~c4EternalForce/lang/schinese/items.tra~
-					// ~c4EternalForce/lang/schinese/styles.tra~
-					// ~c4EternalForce/lang/schinese/skills.tra~
+					~c4EternalForce/lang/schinese/kitname.tra~
+					~c4EternalForce/lang/schinese/items.tra~
+					~c4EternalForce/lang/schinese/styles.tra~
+					~c4EternalForce/lang/schinese/skills.tra~
 
 BEGIN @-1
 DESIGNATED 1
