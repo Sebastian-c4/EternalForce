@@ -21,14 +21,14 @@ LANGUAGE 	~Simplified Chinese~
 					~schinese~
 					~c4EternalForce/lang/schinese/prompts/prompts-%WEIDU_OS%.tra~
 					~c4EternalForce/lang/schinese/setup.tra~
-					// ~c4EternalForce/lang/schinese/kitname.tra~
-					// ~c4EternalForce/lang/schinese/items.tra~
-					// ~c4EternalForce/lang/schinese/styles.tra~
-					// ~c4EternalForce/lang/schinese/skills.tra~
+					~c4EternalForce/lang/schinese/kitname.tra~
+					~c4EternalForce/lang/schinese/items.tra~
+					~c4EternalForce/lang/schinese/styles.tra~
+					~c4EternalForce/lang/schinese/skills.tra~
 
 BEGIN @-1
 DESIGNATED 1
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @-10000
 
-
+OUTER_SET c4EternalForceVer=440
 LAF run STR_VAR file=install_kits file_loc=components END

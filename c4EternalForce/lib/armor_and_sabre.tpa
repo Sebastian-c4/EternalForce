@@ -111,12 +111,12 @@ DEFINE_ACTION_FUNCTION armor_and_sabre BEGIN
 		LPF ALTER_EFFECT STR_VAR match_resource=c4efPF21 resource=c4efPF22 END
 		
 	/* 双持 */
-	LAF CREATE_EFFECT INT_VAR opcode=0 duration=12 parameter1=~-1~ savingthrow=BIT24 STR_VAR name=c4efPF31 END
-	LAF CREATE_EFFECT INT_VAR opcode=278 duration=12 parameter1=~-1~ savingthrow=BIT24 STR_VAR name=c4efPF32 END
+	LAF CREATE_EFFECT INT_VAR opcode=0 duration=6 parameter1=~-1~ savingthrow=BIT24 STR_VAR name=c4efPF31 END
+	LAF CREATE_EFFECT INT_VAR opcode=278 duration=6 parameter1=~-1~ savingthrow=BIT24 STR_VAR name=c4efPF32 END
 
 	//精通
-	LAF CREATE_EFFECT INT_VAR opcode=0 duration=18 parameter1=~-1~ savingthrow=BIT24 STR_VAR name=c4efPF33 END
-	LAF CREATE_EFFECT INT_VAR opcode=278 duration=18 parameter1=~-1~ savingthrow=BIT24 STR_VAR name=c4efPF34 END
+	LAF CREATE_EFFECT INT_VAR opcode=0 duration=12 parameter1=~-1~ savingthrow=BIT24 STR_VAR name=c4efPF33 END
+	LAF CREATE_EFFECT INT_VAR opcode=278 duration=12 parameter1=~-1~ savingthrow=BIT24 STR_VAR name=c4efPF34 END
 		
 	//武器
 	COPY_EXISTING_REGEXP ~c4ef[JS]W[12][CD]\.itm~ override

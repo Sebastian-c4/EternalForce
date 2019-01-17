@@ -1,5 +1,4 @@
 
-
 IF
 	NumItemsGT("%weapon%",Player%PN%,1)
 THEN

@@ -13,7 +13,7 @@ DEFINE_ACTION_FUNCTION install_kits BEGIN
 	// version mark
 	COPY ~.../c4_inlined/blank.baf~ ~override/c4EternalForce_version_%c4EternalForceVer%.mrk~
 
-	/* ×¨¹¥Ñ¡Ôñ¶Ô»° */
+	/* ä¸“æ”»é€‰æ‹©å¯¹è¯ */
 	WITH_TRA "%tra_loc%/%base_language%/dialog.tra" "%tra_loc%/%LANGUAGE%/dialog.tra" BEGIN
 		COMPILE ~%mod_root%/dlg/dialog.d~ EVAL
 	END
@@ -21,22 +21,22 @@ DEFINE_ACTION_FUNCTION install_kits BEGIN
 	// addkit
 	LAF run STR_VAR file=add_kits file_loc=lib tra=kitname END
 	
-	// ±»¶¯
+	// è¢«åŠ¨
 	LAF run STR_VAR file=passive file_loc=lib tra=items END
 
-	/* ÇÖÊ´¶ÈÉèÖÃºÍÏÔÊ¾ */
+	/* ä¾µèš€åº¦è®¾ç½®å’Œæ˜¾ç¤º */
 	LAF run STR_VAR file=protrait_icon file_loc=lib tra=skills END
 	
-	/* ×°±¸ºÍ½£Êõ×¨¹¥ */
+	/* è£…å¤‡å’Œå‰‘æœ¯ä¸“æ”» */
 	LAF run STR_VAR file=armor_and_sabre file_loc=lib tra=items END
 
-	/* ½£Ê½ */
+	/* å‰‘å¼ */
 	LAF run STR_VAR file=styles file_loc=lib tra=styles END
 
-	/* Ô­Á¦¼¼ÄÜ */
+	/* åŸåŠ›æŠ€èƒ½ */
 	LAF run STR_VAR file=skills file_loc=lib tra=skills END
 
-	/* ½Å±¾ */
+	/* è„šæœ¬ */
 	LAF run STR_VAR file=script file_loc=lib tra=items END
 
 END

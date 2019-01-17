@@ -1,5 +1,4 @@
 
-
 //// 学徒to武士
 IF
 	Class(Player%PN%, PALADIN)

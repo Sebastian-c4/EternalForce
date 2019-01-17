@@ -6,8 +6,6 @@ ACTION_IF !VARIABLE_IS_SET always_once_section BEGIN
 	OUTER_SPRINT SCRIPTS		~%mod_root%/baf~
 	OUTER_SPRINT SKILLS			~%mod_root%/skills~
 	OUTER_SPRINT PROJECTILE ~%mod_root%/pro~
-
-	OUTER_SET c4EternalForceVer=440
 	
 	INCLUDE ~%LIBS%/_A7functions.tpa~
 	INCLUDE ~%LIBS%/_functions.tpa~
@@ -23,7 +21,7 @@ ACTION_IF !VARIABLE_IS_SET always_once_section BEGIN
 
 	ACTION_DEFINE_ASSOCIATIVE_ARRAY sabre_check BEGIN
 		
-		//×¨¾«µ«¶éÂä/¾ÈÊêºó³ÉÎäÊ¿Ê±Ê¹ÓÃ(Î±)µÚÒ»¼¶
+		//ä¸“ç²¾ä½†å •è½/æ•‘èµŽåŽæˆæ­¦å£«æ—¶ä½¿ç”¨(ä¼ª)ç¬¬ä¸€çº§
 		c4efJW4A, JediB, JediB => 11
 		c4efJW4B, JediB, JediB => 12
 		c4efJW4C, JediB, JediB => 13
@@ -66,7 +64,7 @@ ACTION_IF !VARIABLE_IS_SET always_once_section BEGIN
 	END
 
 	ACTION_DEFINE_ASSOCIATIVE_ARRAY skills_align BEGIN
-		//Í¨ÓÃ=0, ¹âÃ÷=1, ÆôµÏÇ¿»¯Ç°=2, ÆôµÏºó=3, ºÚ°µ=11, ÎäÊ¿=12, ´ó¾ý=13, Ìì¸³ºÍ¸ß½×=99
+		//é€šç”¨=0, å…‰æ˜Ž=1, å¯è¿ªå¼ºåŒ–å‰=2, å¯è¿ªåŽ=3, é»‘æš—=11, æ­¦å£«=12, å¤§å›=13, å¤©èµ‹å’Œé«˜é˜¶=99
 		// 001		=> 99
 		// 002		=> 99
 		// 003		=> 99
