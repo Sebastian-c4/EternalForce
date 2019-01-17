@@ -508,11 +508,12 @@ BEGIN
 				&&  (savingthrow_		= match_savingthrow 				|| match_savingthrow 		= 999999)
 				&&  (savebonus_			= match_savebonus 					|| match_savebonus 			= 999999)
 				&&  (special_	 			= match_special		 					|| match_special 				= 999999)
-				&& 	((~%resource_%~ STR_EQ ~%match_resource%~) 	|| (~%match_resource%~ STR_EQ ~SAME~))
+				&& 	((~%match_resource%~ STR_EQ ~%resource_%~) 	|| (~%match_resource%~ STR_EQ ~SAME~))
 			BEGIN
 			
 				/* set new value */
 				//parameter1和savebonus去掉倍数不为0的判断, 用于接受ALTER_EFFECT负值无法生效
+				//2019.01.14：全部去掉倍数不为0时的判断
 				
         // PATCH_IF multi_parameter1 != 0 THEN BEGIN
 					PATCH_IF parameter1 != 999999 BEGIN
@@ -522,21 +523,21 @@ BEGIN
 					END
 				// END
 				
-        PATCH_IF multi_duration != 0 THEN BEGIN
+        // PATCH_IF multi_duration != 0 THEN BEGIN
 					PATCH_IF duration != 999999 BEGIN
 						WRITE_LONG offset+0xe duration	+ m*multi_duration
 					END ELSE BEGIN
 						WRITE_LONG offset+0xe duration_	+ m*multi_duration
 					END
-				END
+				// END
 				
-        PATCH_IF multi_dicenumber != 0 THEN BEGIN
+        // PATCH_IF multi_dicenumber != 0 THEN BEGIN
 					PATCH_IF dicenumber != 999999 BEGIN
 						WRITE_LONG offset+0x1c dicenumber	+ m*multi_dicenumber
 					END ELSE BEGIN
 						WRITE_LONG offset+0x1c dicenumber_	+ m*multi_dicenumber
 					END
-				END
+				// END
 				
         // PATCH_IF multi_savebonus != 0 THEN BEGIN
 					PATCH_IF savebonus != 999999 BEGIN
@@ -546,21 +547,21 @@ BEGIN
 					END
 				// END
 				
-        PATCH_IF multi_probability1 != 0 THEN BEGIN
+        // PATCH_IF multi_probability1 != 0 THEN BEGIN
 					PATCH_IF probability1 != 999999 BEGIN
 						WRITE_BYTE offset+0x12 probability1		+ m*multi_probability1
 					END ELSE BEGIN
 						WRITE_BYTE offset+0x12 probability1_	+ m*multi_probability1
 					END
-				END
+				// END
 				
-        PATCH_IF multi_probability2 != 0 THEN BEGIN
+        // PATCH_IF multi_probability2 != 0 THEN BEGIN
 					PATCH_IF probability2 != 999999 BEGIN
 						WRITE_BYTE offset+0x13 probability2		+ m*multi_probability2
 					END ELSE BEGIN
 						WRITE_BYTE offset+0x13 probability2_	+ m*multi_probability2
 					END
-				END
+				// END
 				
 				/* resource and suffix */
 				/* when not enough suffixes, use the previous one instead of nothing */
@@ -748,7 +749,7 @@ IF
 	%conditions%
 THEN
 	RESPONSE #100
-		SetGlobalTimer("%name%%slot%_Exists_Timer","Global",1)
+		SetGlobalTimer("%name%%slot%_Exists_Timer","Global",3)
 END
 
 IF
